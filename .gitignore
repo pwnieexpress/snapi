@@ -1,0 +1,6 @@
+*.db
+tmp/
+.rvmrc
+*.swp
+*.netxml
+doc/
