@@ -32,7 +32,7 @@ module Snapi
       end
 
       def to_hash
-        { return_type: return_type }.merge arguments
+        { return_type: return_type }.merge (arguments||{})
       end
     end
 
@@ -61,24 +61,24 @@ module Snapi
   end
 end
 
-# class BinRunner < Snapi::Capability
-#   function :run do |fn|
-#     fn.argument :command do |arg|
-#       arg.default_value nil
-#       arg.required true
-#       arg.list false
-#       arg.type :string
-#     end
-#     fn.return :raw
-#   end
+#class BinRunner < Snapi::Capability
+#  function :run do |fn|
+#    fn.argument :command do |arg|
+#      arg.default_value nil
+#      arg.required true
+#      arg.list false
+#      arg.type :string
+#    end
+#    fn.return :raw
+#  end
 #
-#   function :hostname do |fn|
-#     fn.argument :hostname do |arg|
-#       arg.type :string
-#     end
-#     fn.return :raw
-#   end
-# end
+#  function :hostname do |fn|
+#    fn.argument :hostname do |arg|
+#      arg.type :string
+#    end
+#    fn.return :raw
+#  end
+#end
 
 
 
@@ -89,12 +89,33 @@ describe Snapi::Capability do
         arg.default_value "test"
         arg.list true
         arg.required true
-        arg.type "string"
+        arg.type :string
       end
-      fn.return "string"
+      fn.return :raw
     end
-    expected_return = {:test_function=> {:return_type=>"string", :test_arg=> {:default_value=>"test", :required=>true, :list=>true, :type=>"string"}}}
+    expected_return = {:test_function=> {:return_type=>:raw, :test_arg=> {:default_value=>"test", :required=>true, :list=>true, :type=>:string}}}
     subject.class.functions.should == expected_return
+  end
+
+  it "doesn't shared functions between inherited classes" do
+    class Klass1 < Snapi::Capability
+      function :test do |fn|
+        fn.return :raw
+      end
+    end
+    class Klass2 < Snapi::Capability
+      function :not_test do |fn|
+        fn.return :raw
+      end
+    end
+
+    Klass1.functions[:test].should_not == nil
+    Klass2.functions[:test].should == nil
+    Klass1.functions[:not_test].should == nil
+    Klass2.functions[:not_test].should_not == nil
+
+    Snapi::Capability.functions[:test].should == nil
+    Snapi::Capability.functions[:not_test].should == nil
   end
 end
 
