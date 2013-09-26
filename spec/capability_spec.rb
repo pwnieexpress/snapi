@@ -4,13 +4,25 @@ describe Snapi::Capability do
 
   describe "has a namespace which" do
     it "can convert its class name into a route namespace" do
-      subject.namespace.should == "capability"
+      subject.class.namespace.should == "capability"
     end
 
     it "passes this to inherited Capability objects" do
       SuperMegaCrazyName1Space = Class.new(subject.class)
 
-      SuperMegaCrazyName1Space.new.namespace.should == "super_mega_crazy_name1_space"
+      SuperMegaCrazyName1Space.namespace.should == "super_mega_crazy_name1_space"
+    end
+  end
+
+  describe "can return a hash representation of itself" do
+    it do
+      class CapabilityFromBeyondTheGrave < Snapi::Capability
+        route "summon_zombies"
+      end
+      cfbtg_hash = {"capability_from_beyond_the_grave" => {"summon_zombies" => {}}}
+
+      CapabilityFromBeyondTheGrave.to_hash.should == cfbtg_hash
+      Snapi::Capability.full_hash.should == {}.merge(cfbtg_hash)
     end
   end
 
@@ -52,6 +64,7 @@ describe Snapi::Capability do
         },
         "test" => {}
       }
+
       CapabilityFromBeyondTheGrave.routes.should == expected_hash
 
     end

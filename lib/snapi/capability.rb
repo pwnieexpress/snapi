@@ -22,13 +22,24 @@ module Snapi
 
     # Convert the class name to  a snake-cased
     # URL friendly namespace
-    def namespace
-      self.class.name
-                .split('::').last
-                .scan(/([A-Z]+[a-z0-9]+)/)
-                .flatten.map(&:downcase)
-                .join("_")
+    def self.namespace
+      self.name
+          .split('::').last
+          .scan(/([A-Z]+[a-z0-9]+)/)
+          .flatten.map(&:downcase)
+          .join("_")
     end
 
+    def self.to_hash
+      {
+        self.namespace => @@routes
+      }
+    end
+
+    def self.full_hash
+      self.subclasses.inject({}) do |collector, klass|
+        collector.merge(klass.to_hash)
+      end
+    end
   end
 end
