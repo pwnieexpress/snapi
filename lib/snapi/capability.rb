@@ -5,6 +5,15 @@ module Snapi
 
     def self.route(path, meta_info={})
       @@routes[path.to_s] = meta_info
+      yield(path) if block_given?
+    end
+
+    def self.parameter(path, name, meta_info={})
+      @@routes[path][name] = meta_info
+    end
+
+    def self.returned_type(path, type)
+      @@routes[path]["returned_type"] = type
     end
 
     def self.routes

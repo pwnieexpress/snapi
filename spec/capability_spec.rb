@@ -17,10 +17,43 @@ describe Snapi::Capability do
   describe "has a configurable list of routes which" do
     it "comprises have routes with a meta information hash added as a setting via a class method" do
       class CapabilityFromBeyondTheGrave < Snapi::Capability
-        route "summon_zombies", { "gravedigging" => true }
-        route "sacrifice_population"
+        route "summon_zombies", {}
       end
-      CapabilityFromBeyondTheGrave.routes.should == {"summon_zombies" => {"gravedigging" => true }, "sacrifice_population" => {}}
+      CapabilityFromBeyondTheGrave.routes.should == {"summon_zombies" => {}}
+    end
+
+    it "takes an optional block" do
+      class CapabilityFromBeyondTheGrave < Snapi::Capability
+        route "summon_zombies" do |path|
+
+          parameter path, "gravedigging", {
+            "default_value" => false,
+            "required" => false,
+            "list" => false,
+            "type" => "boolean"
+          }
+
+          returned_type path, "none"
+
+        end
+
+        route "test"
+      end
+
+      expected_hash = {
+        "summon_zombies" => {
+          "gravedigging" => {
+            "default_value" => false,
+            "required" => false,
+            "list" => false,
+            "type" => "boolean"
+          },
+          "returned_type" => "none"
+        },
+        "test" => {}
+      }
+      CapabilityFromBeyondTheGrave.routes.should == expected_hash
+
     end
   end
 
