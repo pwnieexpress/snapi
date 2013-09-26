@@ -1,3 +1,5 @@
+require "snapi/capabilities/argument"
+require "snapi/capabilities/function"
 require "snapi/capability"
 require "core_ext/class"
 
