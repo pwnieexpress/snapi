@@ -15,10 +15,10 @@ describe Snapi::Capability do
     it "can return a hash representation of itself" do
       class CapabilityFromBeyondTheGrave < Snapi::Capability
         function :summon_zombies do |fn|
-          fn.return :monsters
+          fn.return :raw
         end
       end
-      cfbtg_hash = {:capability_from_beyond_the_grave => {:summon_zombies => { :return_type => :monsters}}}
+      cfbtg_hash = {:capability_from_beyond_the_grave => {:summon_zombies => { :return_type => :raw}}}
 
       CapabilityFromBeyondTheGrave.to_hash.should == cfbtg_hash
     end
@@ -35,7 +35,7 @@ describe Snapi::Capability do
         end
         fn.return :raw
       end
-      expected_return = {:test_function=> {:return_type=>:raw, :test_arg=> {:default_value=>"test", :required=>true, :list=>true, :type=>:string}}}
+      expected_return = {:test_function=> {:return_type=>:raw, :test_arg=> {:default_value=>"test", :required=>true, :list=>true, :type=>:string, :values=>nil}}}
       subject.class.functions.should == expected_return
     end
 

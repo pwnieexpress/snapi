@@ -11,11 +11,16 @@ module Snapi
       end
 
       def return(type)
+        raise InvalidReturnTypeError unless valid_return?(type)
         self.return_type = type
       end
 
       def to_hash
         { return_type: return_type }.merge (arguments||{})
+      end
+
+      def valid_return?(type)
+        %w{ none raw structured }.include? type.to_s
       end
     end
   end

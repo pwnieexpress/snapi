@@ -1,3 +1,4 @@
+require "snapi/capabilities/errors"
 require "snapi/capabilities/argument"
 require "snapi/capabilities/function"
 require "snapi/capability"
