@@ -71,10 +71,47 @@ describe Snapi::Capability do
       JakeTheDog.functions[:enchyridion].should == nil
       JakeTheDog.functions[:beemo].should_not   == nil
 
-      Snapi::Capability.functions.should == nil
-      Snapi::Capability.functions.should == nil
+      Snapi::Capability.functions.should == {}
+
     end
   end
+
+  describe "tracks a :library class or module which provides methods as defined by the function block" do
+    it "defaults to self" do
+      class TheLich < Snapi::Capability
+      end
+      TheLich.library_class.should == TheLich
+    end
+    it "can be set via self.library " do
+      class BillysLittleFriend
+        def help_somebody
+        end
+      end
+      class BillyTheHero < Snapi::Capability
+        library BillysLittleFriend
+        function :help_somebody
+      end
+      BillyTheHero.library_class.should == BillysLittleFriend
+    end
+    it "can validate if the library has the valid methods" do
+      class BillysLittleFriend
+        def self.help_somebody
+        end
+      end
+      class BillyTheHero < Snapi::Capability
+        library BillysLittleFriend
+        function :help_somebody
+      end
+      class FrankTheVillain < Snapi::Capability
+        library BillysLittleFriend
+        function :hurt_somebody
+      end
+      BillyTheHero.valid_library_class?.should == true
+      FrankTheVillain.valid_library_class?.should == false
+    end
+  end
+
 end
+
 
 

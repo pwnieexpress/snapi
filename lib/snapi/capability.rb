@@ -1,11 +1,15 @@
 module Snapi
   class Capability
     class << self
-      attr_accessor :functions
+      attr_accessor :functions, :library_class
     end
 
-    def functions
+    def self.functions
       @functions || {}
+    end
+
+    def self.library_class
+      @library_class || self
     end
 
     def self.function(name)
@@ -18,6 +22,10 @@ module Snapi
       end
       @functions ||= {}
       @functions[name] = fn.to_hash
+    end
+
+    def self.library(klass=self)
+      @library_class = klass
     end
 
     # Convert the class name to a snake-cased
@@ -41,6 +49,13 @@ module Snapi
       self.subclasses.inject({}) do |collector, klass|
         collector.merge(klass.to_hash)
       end
+    end
+
+    def self.valid_library_class?
+      self.functions.keys.each do |function_name|
+        return false unless self.library_class.methods.include?(function_name)
+      end
+      true
     end
   end
 end
