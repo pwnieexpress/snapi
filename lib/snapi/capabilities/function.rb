@@ -11,7 +11,9 @@ module Snapi
       end
 
       def return(type)
-        raise InvalidReturnTypeError unless valid_return?(type)
+        valid = %w{ none raw structured }.include? type.to_s
+        raise InvalidReturnTypeError unless valid
+
         self.return_type = type
       end
 
@@ -19,9 +21,6 @@ module Snapi
         { return_type: return_type }.merge (arguments||{})
       end
 
-      def valid_return?(type)
-        %w{ none raw structured }.include? type.to_s
-      end
     end
   end
 end
