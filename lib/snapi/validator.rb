@@ -26,6 +26,9 @@ module Snapi
     # Source: RFC952, RFC1034, does not take max length into account
     DOMAIN_REGEX = /^([a-z0-9-]{1,63}\.)*[a-z0-9-]{1,63}$/i
 
+    # validate the name for a function name
+    SNAPI_FUNCTION_NAME = /[a-z0-9_]/
+
     # Source:
     INTERFACE_REGEX = /^([a-z]+)+([0-9]+)+$/i
 
@@ -57,23 +60,24 @@ module Snapi
     def validation_regex
       {
         :address     => [HOSTNAME_REGEX, DOMAIN_REGEX, IP_V4_REGEX, IP_V6_REGEX],
-        :anything    => [/.*/],
-        :bool        => [TRUEFALSE_REGEX],
-        :command     => [SIMPLE_COMMAND_REGEX],
-        :cron        => [CRON_REGEX],
-        :gsm_adapter => [ADAPTER_REGEX],
-        :hostname    => [HOSTNAME_REGEX],
-        :interface   => [INTERFACE_REGEX],
-        :ip          => [IP_V4_REGEX, IP_V6_REGEX],
-        :ipv6        => [IP_V6_REGEX],
-        :ipv4        => [IP_V4_REGEX],
-        :mac         => [MAC_REGEX],
-        :string      => [STRING_REGEX],
-        :on_off      => [ON_OFF_REGEX],
-        :port        => [PORT_REGEX],
-        :uri         => [URI_REGEX],
-        :username    => [HOSTNAME_REGEX],
-        :password    => [NUM_LETTERS_SP_CHARS]
+        :anything            => [/.*/],
+        :bool                => [TRUEFALSE_REGEX],
+        :command             => [SIMPLE_COMMAND_REGEX],
+        :cron                => [CRON_REGEX],
+        :gsm_adapter         => [ADAPTER_REGEX],
+        :hostname            => [HOSTNAME_REGEX],
+        :interface           => [INTERFACE_REGEX],
+        :ip                  => [IP_V4_REGEX, IP_V6_REGEX],
+        :ipv6                => [IP_V6_REGEX],
+        :ipv4                => [IP_V4_REGEX],
+        :mac                 => [MAC_REGEX],
+        :snapi_function_name => [SNAPI_FUNCTION_NAME],
+        :string              => [STRING_REGEX],
+        :on_off              => [ON_OFF_REGEX],
+        :port                => [PORT_REGEX],
+        :uri                 => [URI_REGEX],
+        :username            => [HOSTNAME_REGEX],
+        :password            => [NUM_LETTERS_SP_CHARS]
       }
     end
 

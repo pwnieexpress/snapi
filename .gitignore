@@ -5,3 +5,5 @@ tmp/
 *.netxml
 doc/
 snapi-0.0.1.gem
+.ruby-gemset
+.ruby-version

@@ -10,6 +10,9 @@ module Snapi
 
     def self.function(name)
       fn = Capabilities::Function.new
+
+      raise InvalidFunctionNameError unless Validator.valid_input?(:snapi_function_name, name)
+
       if block_given?
         yield(fn)
       end
