@@ -7,57 +7,72 @@ describe Snapi::Capability do
     end
 
     it "passes this to inherited Capability objects" do
-      SuperMegaCrazyName1Space = Class.new(subject.class)
-
-      SuperMegaCrazyName1Space.namespace.should == :super_mega_crazy_name1_space
+      LadyRainicornAndPrinceMonochromocorn = Class.new(subject.class)
+      LadyRainicornAndPrinceMonochromocorn.namespace.should == :lady_rainicorn_and_prince_monochromocorn
     end
 
     it "can return a hash representation of itself" do
-      class CapabilityFromBeyondTheGrave < Snapi::Capability
+      class PrinceLemonGrab < Snapi::Capability
         function :summon_zombies do |fn|
           fn.return :raw
         end
       end
-      cfbtg_hash = {:capability_from_beyond_the_grave => {:summon_zombies => { :return_type => :raw}}}
+      lemon_grab = {:prince_lemon_grab => {:summon_zombies => { :return_type => :raw}}}
 
-      CapabilityFromBeyondTheGrave.to_hash.should == cfbtg_hash
+      PrinceLemonGrab.to_hash.should == lemon_grab
     end
   end
 
   describe "DSL" do
     it "can take a function" do
-      subject.class.function :test_function do |fn|
-        fn.argument :test_arg do |arg|
-          arg.default_value "test"
-          arg.list true
-          arg.required true
-          arg.type :string
+      class PrincessBubblegm < Snapi::Capability
+        function :create_candy_person do |fn|
+          fn.argument :candy_base do |arg|
+            arg.default_value "sugar"
+            arg.format :anything
+            arg.list true
+            arg.required true
+            arg.type :enum
+          end
+          fn.return :structured
         end
-        fn.return :raw
       end
-      expected_return = {:test_function=> {:return_type=>:raw, :test_arg=> {:default_value=>"test", :required=>true, :list=>true, :type=>:string, :values=>nil}}}
-      subject.class.functions.should == expected_return
+
+      expected_return = {
+        :create_candy_person => {
+          :return_type =>:structured,
+          :candy_base  => {
+            :default_value => "sugar",
+            :format => :anything,
+            :required => true,
+            :list => true,
+            :type => :enum,
+            :values => nil}
+          }
+        }
+      PrincessBubblegm.functions.should == expected_return
     end
 
     it "doesn't shared functions between inherited classes" do
-      class Klass1 < Snapi::Capability
-        function :test do |fn|
+      class FinnTheHuman < Snapi::Capability
+        function :enchyridion do |fn|
           fn.return :raw
         end
       end
-      class Klass2 < Snapi::Capability
-        function :not_test do |fn|
+      class JakeTheDog < Snapi::Capability
+        function :beemo do |fn|
           fn.return :raw
         end
       end
 
-      Klass1.functions[:test].should_not == nil
-      Klass2.functions[:test].should == nil
-      Klass1.functions[:not_test].should == nil
-      Klass2.functions[:not_test].should_not == nil
+      FinnTheHuman.functions[:enchyridion].should_not == nil
+      FinnTheHuman.functions[:beemo].should           == nil
 
-      Snapi::Capability.functions[:test].should == nil
-      Snapi::Capability.functions[:not_test].should == nil
+      JakeTheDog.functions[:enchyridion].should == nil
+      JakeTheDog.functions[:beemo].should_not   == nil
+
+      Snapi::Capability.functions.should == nil
+      Snapi::Capability.functions.should == nil
     end
   end
 end

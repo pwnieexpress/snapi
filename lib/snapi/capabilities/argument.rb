@@ -5,6 +5,7 @@ module Snapi
       def attributes
         {
           :default_value => @default_value,
+          :format => @format,
           :required => @required,
           :list => @list,
           :type => @type,
@@ -15,6 +16,11 @@ module Snapi
       def default_value(val="")
         raise InvalidStringError unless val.class == String
         @default_value = val
+      end
+
+      def format(format)
+        raise InvalidFormatError unless Validator.valid_regex_format?(format)
+        @format = format
       end
 
       def list(bool)

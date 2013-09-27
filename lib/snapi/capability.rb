@@ -4,6 +4,10 @@ module Snapi
       attr_accessor :functions
     end
 
+    def functions
+      @functions || {}
+    end
+
     def self.function(name)
       fn = Capabilities::Function.new
       if block_given?
