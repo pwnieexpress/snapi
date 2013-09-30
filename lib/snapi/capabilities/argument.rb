@@ -78,8 +78,17 @@ module Snapi
         @type = type
       end
 
-      # TODO: this may not need to be included here
-      def values(values=[])
+      # DSL Setter
+      # What are the values that can be selected? This only applies to :enum typed arguments
+      # and allow the argument to define a list of valid values to select from for this.
+      #
+      # In a form this would map to a select box. Alternative to using a :string argument
+      # with a format to validate against.
+      #
+      # Basically creates a whitelist of values for this argument.
+      #
+      # @param values, Array
+      def values(values)
         raise InvalidValuesError unless values.class == Array
         @values = values
       end
