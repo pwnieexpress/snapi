@@ -19,5 +19,9 @@ module Snapi
     InvalidStringError       = Class.new(StandardError)
     InvalidTypeError         = Class.new(StandardError)
     InvalidValuesError       = Class.new(StandardError)
+    MissingValuesError       = Class.new(StandardError)
+
+    # TODO remove
+    PendingBrancsError       = Class.new(StandardError)
   end
 end

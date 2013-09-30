@@ -92,6 +92,31 @@ module Snapi
         raise InvalidValuesError unless values.class == Array
         @values = values
       end
+
+      # Check if a value provided will suffice for the way
+      # this argument is defined.
+      #
+      # @param input, Just about anything...
+      # @returns Boolean. true if valid
+      def valid_input?(input)
+        case @type
+        when :boolean
+          [true,false].include?(input)
+        when :enum
+          raise MissingValuesError unless @values
+          raise InvalidValuesError unless @values.class == Array
+
+          @values.include?(input)
+        when :string
+          format = @format || :anything
+          Validator.valid_input?(format, input)
+        when :number
+          [Integer, Fixnum].include?(input.class)
+        when :timestamp
+          # TODO timestamp pending
+          raise PendingBranchError
+        end
+      end
     end
   end
 end
