@@ -4,8 +4,6 @@ module Snapi
   # are stored in here.
   module Validator
 
-    module_function :valid_input?, :validation_regex, :format_types, :valid_regex_format?
-
     # Core method of the module which attempts to check if a provided
     # string matches any of the regex's as identified by the key
     #
@@ -66,6 +64,8 @@ module Snapi
         :password            => [NUM_LETTERS_SP_CHARS]
       }
     end
+
+    module_function :valid_input?, :validation_regex, :format_types, :valid_regex_format?
 
     ############################################################################
     #  ______ _____ _   _ _____ _    ______
