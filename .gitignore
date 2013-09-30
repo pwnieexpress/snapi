@@ -1,9 +1,9 @@
 *.db
-tmp/
-.rvmrc
-*.swp
-*.netxml
 doc/
-snapi-0.0.1.gem
+*.gem
+*.netxml
 .ruby-gemset
 .ruby-version
+.rvmrc
+*.swp
+tmp/
