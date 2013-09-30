@@ -112,6 +112,3 @@ describe Snapi::Capability do
   end
 
 end
-
-
-

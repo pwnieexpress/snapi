@@ -30,5 +30,4 @@ describe "Snapi::Validator" do
     Snapi::Validator.valid_input?( :ip, "192.168.10.256" ).should == false
     Snapi::Validator.valid_input?( :ip, "Jake the Dog"   ).should == false
   end
-
 end
