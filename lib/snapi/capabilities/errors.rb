@@ -22,6 +22,6 @@ module Snapi
     MissingValuesError       = Class.new(StandardError)
 
     # TODO remove
-    PendingBrancsError       = Class.new(StandardError)
+    PendingBranchError       = Class.new(StandardError)
   end
 end
