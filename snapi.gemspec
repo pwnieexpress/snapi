@@ -11,7 +11,6 @@ Gem::Specification.new do |s|
   s.authors     = ["Gabe Koss"]
   s.email       = "gabe@pwnieexpress.com"
   s.files       = FileList[ 'bin/**/*', 'lib/**/*', '[A-Z]*', 'spec/**/*' ].to_a
-  s.homepage    = 'https://github.com/granolocks/flattt/'
   s.license     = 'MIT'
 
   s.add_development_dependency('rspec')
