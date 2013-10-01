@@ -2,103 +2,93 @@ module Snapi
   # This class is exists as a way of definining an API capability
   # using a handy DSL to define functions, their arguments, arity,
   # validations and return types.
-  class Capability
+  module Capability
 
-    # modify the class to track @functions and @library_class
-    # at the class level
-    class << self
-      attr_accessor :functions, :library_class
+    def self.included(klass)
+      klass.extend(ClassMethods)
     end
 
-    # Getter to query the internally tracked list of supported
-    # functions.
-    #
-    # @returns Hash, @functions or new Hash
-    def self.functions
-      @functions || {}
-    end
-
-    # Getter to query the class which is responsible for having
-    # methods which map to the names of the functions.
-    #
-    # @returns Class, @library_class || self
-    def self.library_class
-      @library_class || self
-    end
-
-    # DSL setter to add a function to the @functions hash
-    #
-    # @params name, Name of function being defined
-    # @params Block to modify function
-    # @returns Hash of function data
-    def self.function(name)
-      raise InvalidFunctionNameError unless Validator.valid_input?(:snapi_function_name, name)
-      fn = Capabilities::Function.new
-      if block_given?
-        yield(fn)
+    module ClassMethods
+      # modify the class to track @functions and @library_class
+      # at the class level
+      class << self
+        attr_accessor :functions, :library_class
       end
-      @functions ||= {}
-      @functions[name] = fn.to_hash
-    end
 
-    # DSL Setter to define the ruby class (or module) which
-    # contains methods that should map to the function names
-    # in the @functions hash
-    #
-    # @params klass, Class which default to self
-    # @returns Class
-    def self.library(klass=self)
-      @library_class = klass
-    end
-
-    # Test if the set library class is valid based on mapping
-    # the keys of the @functions hash against the methods available
-    # to the @library_class
-    #
-    # @returns Boolean, true if @library_class offers all the methods needed
-    def self.valid_library_class?
-      self.functions.keys.each do |function_name|
-        return false unless self.library_class.methods.include?(function_name)
+      # Getter to query the internally tracked list of supported
+      # functions.
+      #
+      # @returns Hash, @functions or new Hash
+      def functions
+        @functions || {}
       end
-      true
-    end
 
-    # Convert the class name to a snake-cased symbol namespace
-    # representation of class name for use in namespacing
-    #
-    # @returns Symbol, snake_cased
-    def self.namespace
-      self.name
-          .split('::').last
-          .scan(/([A-Z]+[a-z0-9]+)/)
-          .flatten.map(&:downcase)
-          .join("_")
-          .to_sym
-    end
+      # Getter to query the class which is responsible for having
+      # methods which map to the names of the functions.
+      #
+      # @returns Class, @library_class || self
+      def library_class
+        @library_class || self
+      end
 
-    # Helper to conver the class itself to a hash representation
-    # including the functions hash keyed off the namespace
-    #
-    # @returns Hash
-    def self.to_hash
-      {
-        self.namespace => self.functions
-      }
-    end
+      # DSL setter to add a function to the @functions hash
+      #
+      # @params name, Name of function being defined
+      # @params Block to modify function
+      # @returns Hash of function data
+      def function(name)
+        raise InvalidFunctionNameError unless Validator.valid_input?(:snapi_function_name, name)
+        fn = Capabilities::Function.new
+        if block_given?
+          yield(fn)
+        end
+        @functions ||= {}
+        @functions[name] = fn.to_hash
+      end
 
-    # This method is not intended to be used on inherrited classes,
-    # but rather on the Capability class itself as a way of building
-    # a collection of all the subclasses which inherrit from it. This
-    # allows for a handy way to grab all the capabilities of a system
-    # and easily map out a (simple) API
-    #
-    # TODO This does **not** currently support nested namespaces or route
-    # spaces and that may or may not present a challenge in the future
-    #
-    # @returns Hash of all Capability subclasses converted to their hash representation
-    def self.full_hash
-      self.subclasses.inject({}) do |collector, klass|
-        collector.merge(klass.to_hash)
+      # DSL Setter to define the ruby class (or module) which
+      # contains methods that should map to the function names
+      # in the @functions hash
+      #
+      # @params klass, Class which default to self
+      # @returns Class
+      def library(klass=self)
+        @library_class = klass
+      end
+
+      # Test if the set library class is valid based on mapping
+      # the keys of the @functions hash against the methods available
+      # to the @library_class
+      #
+      # @returns Boolean, true if @library_class offers all the methods needed
+      def valid_library_class?
+        self.functions.keys.each do |function_name|
+          return false unless self.library_class.methods.include?(function_name)
+        end
+        true
+      end
+
+      # Convert the class name to a snake-cased symbol namespace
+      # representation of class name for use in namespacing
+      #
+      # @returns Symbol, snake_cased
+      def namespace
+        self.name
+        .split('::').last
+        .scan(/([A-Z]+[a-z0-9]+)/)
+        .flatten.map(&:downcase)
+        .join("_")
+        .to_sym
+      end
+
+      # Helper to conver the class itself to a hash representation
+      # including the functions hash keyed off the namespace
+      #
+      # @returns Hash
+      def to_hash
+        {
+          self.namespace => self.functions
+        }
       end
     end
   end

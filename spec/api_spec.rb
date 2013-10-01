@@ -1,18 +1,18 @@
 require "spec_helper"
 
-describe Snapi::Capability do
+describe Snapi::Api do
   describe "has a namespace which" do
     it "can convert its class name into a route namespace" do
-      subject.class.namespace.should == :capability
+      subject.class.namespace.should == :api
     end
 
-    it "passes this to inherited Capability objects" do
+    it "passes this to inherited Api objects" do
       LadyRainicornAndPrinceMonochromocorn = Class.new(subject.class)
       LadyRainicornAndPrinceMonochromocorn.namespace.should == :lady_rainicorn_and_prince_monochromocorn
     end
 
     it "can return a hash representation of itself" do
-      class PrinceLemonGrab < Snapi::Capability
+      class PrinceLemonGrab < Snapi::Api
         function :summon_zombies do |fn|
           fn.return :raw
         end
@@ -25,7 +25,7 @@ describe Snapi::Capability do
 
   describe "DSL" do
     it "can take a function" do
-      class PrincessBubblegm < Snapi::Capability
+      class PrincessBubblegm < Snapi::Api
         function :create_candy_person do |fn|
           fn.argument :candy_base do |arg|
             arg.default_value "sugar"
@@ -54,12 +54,12 @@ describe Snapi::Capability do
     end
 
     it "doesn't shared functions between inherited classes" do
-      class FinnTheHuman < Snapi::Capability
+      class FinnTheHuman < Snapi::Api
         function :enchyridion do |fn|
           fn.return :raw
         end
       end
-      class JakeTheDog < Snapi::Capability
+      class JakeTheDog < Snapi::Api
         function :beemo do |fn|
           fn.return :raw
         end
@@ -71,14 +71,14 @@ describe Snapi::Capability do
       JakeTheDog.functions[:enchyridion].should == nil
       JakeTheDog.functions[:beemo].should_not   == nil
 
-      Snapi::Capability.functions.should == {}
+      Snapi::Api.functions.should == {}
 
     end
   end
 
   describe "tracks a :library class or module which provides methods as defined by the function block" do
     it "defaults to self" do
-      class TheLich < Snapi::Capability
+      class TheLich < Snapi::Api
       end
       TheLich.library_class.should == TheLich
     end
@@ -87,7 +87,7 @@ describe Snapi::Capability do
         def help_somebody
         end
       end
-      class BillyTheHero < Snapi::Capability
+      class BillyTheHero < Snapi::Api
         library BillysLittleFriend
         function :help_somebody
       end
@@ -98,11 +98,11 @@ describe Snapi::Capability do
         def self.help_somebody
         end
       end
-      class BillyTheHero < Snapi::Capability
+      class BillyTheHero < Snapi::Api
         library BillysLittleFriend
         function :help_somebody
       end
-      class FrankTheVillain < Snapi::Capability
+      class FrankTheVillain < Snapi::Api
         library BillysLittleFriend
         function :hurt_somebody
       end
