@@ -23,7 +23,7 @@ Usually code just so here is a sample implementation
 require 'snapi'
 require 'json'
 
-class Scanner < Snapi::Capability
+class Scanner < Snapi::Api
   function :scan do |fn|
     fn.argument :target do |arg|
       arg.required true
