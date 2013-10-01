@@ -82,7 +82,7 @@ describe Snapi::Capabilities::Argument do
       a.valid_input?(true).should     == false
     end
 
-    it ":enum with values" do
+    it ":number" do
       a = Snapi::Capabilities::Argument.new
       a.type :number
       a.valid_input?(100000000).should == true
