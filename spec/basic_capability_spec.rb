@@ -25,7 +25,7 @@ describe Snapi::BasicCapability do
 
   describe "DSL" do
     it "can take a function" do
-      class PrincessBubblegm < Snapi::BasicCapability
+      class PrincessBubblegum < Snapi::BasicCapability
         function :create_candy_person do |fn|
           fn.argument :candy_base do |arg|
             arg.default_value "sugar"
@@ -50,7 +50,7 @@ describe Snapi::BasicCapability do
             }
           }
         }
-      PrincessBubblegm.functions.should == expected_return
+      PrincessBubblegum.to_hash.should == { PrincessBubblegum.namespace => expected_return}
     end
 
     it "doesn't shared functions between inherited classes" do
