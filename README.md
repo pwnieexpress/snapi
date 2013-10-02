@@ -44,7 +44,7 @@ The `Scanner` class in this example would respond to a `functions` message as
 follows. 
 
 ```ruby
-irb> puts JSON.pretty_generate Nmap.functions
+irb> puts JSON.pretty_generate Scanner.functions
 #=> nil
 
 {
