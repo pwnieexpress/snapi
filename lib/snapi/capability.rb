@@ -44,7 +44,7 @@ module Snapi
           yield(fn)
         end
         @functions ||= {}
-        @functions[name] = fn.to_hash
+        @functions[name] = fn
       end
 
       # DSL Setter to define the ruby class (or module) which
@@ -87,8 +87,10 @@ module Snapi
       #
       # @returns Hash
       def to_hash
+        fn_hash = {}
+        functions.each {|k,v| fn_hash[k] = v.to_hash } if functions
         {
-          self.namespace => self.functions
+          self.namespace => fn_hash
         }
       end
     end
