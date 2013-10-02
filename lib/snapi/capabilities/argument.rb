@@ -20,7 +20,9 @@ module Snapi
 
       def []=(key, value)
         raise InvalidArgumentAttributeError unless valid_attributes.include?(key)
-        @attributes[key] = value
+
+        #TODO is this an awful idea?
+        send(key, value)
       end
 
       def attributes
