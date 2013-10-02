@@ -44,7 +44,7 @@ module Snapi
           yield(fn)
         end
         @functions ||= {}
-        @functions[name] = fn.to_hash
+        @functions[name] = fn
       end
 
       # DSL Setter to define the ruby class (or module) which

@@ -13,6 +13,7 @@ module Snapi
     #
     Function = Struct.new(:arguments, :return_type ) do
 
+
       # DSL setter to define a the meta information for an
       # argument for the Function
       #
@@ -25,7 +26,7 @@ module Snapi
           yield(arg)
         end
         self.arguments = {} if self.arguments == nil
-        self.arguments[name] = arg.attributes
+        self.arguments[name] = arg
       end
 
       # DSL Setter to define the type of data returned by this function
