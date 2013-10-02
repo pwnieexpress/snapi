@@ -4,6 +4,13 @@ module Snapi
   # validations and return types.
   module Capability
 
+    # When this module is included into a given Class
+    # this will wbe run. It will extend the clas with
+    # the methods found in the the Snapi::Capability::ClassMethods
+    # module and register the class in question with the Snapi
+    # module.
+    #
+    # @params klass, Class
     def self.included(klass)
       klass.extend(ClassMethods)
       Snapi.register_capability(klass)

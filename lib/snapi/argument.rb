@@ -8,15 +8,30 @@ module Snapi
   # which represents a function on the Capabilities library class
   class Argument
 
-    #TODO add tests
+    # @attributes tracks the various meta-attributes which can be
+    # set for the argument record.  This initializer simply sets that
+    # value as
     def initialize
       @attributes = {}
     end
 
+    # Allow the record to behave like a hash by giving access to @attributes
+    # via [] getter
+    #
+    # @params key, key to query @attributes with
     def [](key)
       @attributes[key]
     end
 
+    # Allow the record to behave like a hash by giving access to @attributes
+    # via []= setter
+    #
+    # Validates the key requested to set is included in the valid_attributes
+    # white list and then uses the uses the various setter methods below to
+    # set the value.
+    #
+    # @param key, attribute name
+    # @param value, value to set
     def []=(key, value)
       raise InvalidArgumentAttributeError unless valid_attributes.include?(key)
 
@@ -24,10 +39,16 @@ module Snapi
       send(key, value)
     end
 
+    # Get the @attributes hash
+    #
+    # @returns Hash
     def attributes
       @attributes
     end
 
+    # Whitelist of attribute names
+    #
+    # @returns Array of Symbols
     def valid_attributes
       [:default_value, :format, :list, :required, :type, :values]
     end
