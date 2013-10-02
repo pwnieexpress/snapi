@@ -63,7 +63,7 @@ module Snapi
       # @returns Boolean, true if @library_class offers all the methods needed
       def valid_library_class?
         self.functions.keys.each do |function_name|
-          return false unless self.library_class.methods.include?(function_name)
+          return false unless @library_class.methods.include?(function_name)
         end
         true
       end
