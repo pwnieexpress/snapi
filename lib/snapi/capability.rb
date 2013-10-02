@@ -6,7 +6,7 @@ module Snapi
 
     def self.included(klass)
       klass.extend(ClassMethods)
-      CapabilityManager.register_capability(klass)
+      Snapi.register_capability(klass)
     end
 
     module ClassMethods
