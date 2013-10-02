@@ -50,5 +50,24 @@ module Snapi
       { return_type: return_type }.merge args_hash
     end
 
+    # This method accepts a hash (as from a web request) which it
+    # uses to compare against its argument definitions in order to
+    # do some upfront validation before trying to run the function
+    # names as defined in the library_class
+    #
+    # TODO: build up an errors hash to disclose what the issue is
+    #
+    # @params args Hash
+    # @returns Boolean
+    def valid_args?(args={})
+      valid = false
+      arguments.each do |name, argument|
+        if argument[:required]
+          return false if args[name] == nil
+        end
+        valid =  argument.valid_input?(args[name])
+      end
+      return valid
+    end
   end
 end
