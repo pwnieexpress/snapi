@@ -19,7 +19,7 @@ This has only been used on `1.9.3` but is should run fine on `1.9+` and `2.x+`
 
 Simple Exmaple:
 
-```ruby
+```
 # readme_sample.rb
 
 require 'snapi'
