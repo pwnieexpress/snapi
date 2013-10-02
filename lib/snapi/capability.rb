@@ -100,6 +100,17 @@ module Snapi
           self.namespace => fn_hash
         }
       end
+
+      # Helper to check if a function call to the capability would
+      # be valid with the given arguments
+      #
+      # @param function Symbolic name to reference the function out of the @functions hash
+      # @param args hash of arguments
+      # @returns Boolean
+      def valid_function_call?(function, args)
+        return false unless functions[function]
+        functions[function].valid_args?(args)
+      end
     end
   end
 end

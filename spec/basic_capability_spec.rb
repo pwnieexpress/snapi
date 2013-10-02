@@ -111,4 +111,20 @@ describe Snapi::BasicCapability do
     end
   end
 
+  it "validates a hash of arguments against a function" do
+    class IceKing < Snapi::BasicCapability
+      function :ice_attack do |fn|
+        fn.argument :victim do |arg|
+          arg.required true
+          arg.type :string
+        end
+      end
+    end
+
+    IceKing.valid_function_call?(:icicle, {:victim => "Gunther"}).should == false
+    IceKing.valid_function_call?(:ice_attack, {}).should == false
+    IceKing.valid_function_call?(:ice_attack, {:victim => "Gunther"}).should == true
+
+
+  end
 end
