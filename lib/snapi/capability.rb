@@ -87,8 +87,10 @@ module Snapi
       #
       # @returns Hash
       def to_hash
+        fn_hash = {}
+        functions.each {|k,v| fn_hash[k] = v.to_hash } if functions
         {
-          self.namespace => self.functions
+          self.namespace => fn_hash
         }
       end
     end
