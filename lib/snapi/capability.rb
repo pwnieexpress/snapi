@@ -38,7 +38,7 @@ module Snapi
       # @params Block to modify function
       # @returns Hash of function data
       def function(name)
-        raise InvalidFunctionNameError unless Validator.valid_input?(:snapi_function_name, name)
+        raise Capabilities::InvalidFunctionNameError unless Validator.valid_input?(:snapi_function_name, name)
         fn = Capabilities::Function.new
         if block_given?
           yield(fn)
