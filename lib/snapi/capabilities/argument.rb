@@ -9,22 +9,28 @@ module Snapi
     # which represents a function on the Capabilities library class
     class Argument
 
-      # Each argument provides a hash of Attributes which
-      # act as the object representation in the codebase.
-      #
-      # This hash should provide enough data to validate an input to the
-      # function or build an HTML form element for the attribute.
-      #
-      # @returns Hash of attributes
+      #TODO add tests
+      def initialize
+        @attributes = {}
+      end
+
+      def [](key)
+        @attributes[key]
+      end
+
+      def []=(key, value)
+        raise InvalidArgumentAttributeError unless valid_attributes.include?(key)
+
+        #TODO is this an awful idea?
+        send(key, value)
+      end
+
       def attributes
-        output = {}
-        output[:default_value] = @default_value if @default_value
-        output[:format]        = @format        if @format
-        output[:required]      = @required      if @required
-        output[:list]          = @list          if @list
-        output[:type]          = @type          if @type
-        output[:values]        = @values        if @values
-        output
+        @attributes
+      end
+
+      def valid_attributes
+        [:default_value, :format, :list, :required, :type, :values]
       end
 
       # DSL Setter
@@ -33,7 +39,7 @@ module Snapi
       # @param val, Value to use in case one isn't provided,
       def default_value(val)
         raise InvalidStringError unless val.class == String
-        @default_value = val
+        @attributes[:default_value] = val
       end
 
       # DSL Setter
@@ -43,7 +49,7 @@ module Snapi
       # @param format, Symbol of format to match against
       def format(format)
         raise InvalidFormatError unless Validator.valid_regex_format?(format)
-        @format = format
+        @attributes[:format] = format
       end
 
       # DSL Setter
@@ -53,7 +59,7 @@ module Snapi
       # @param bool, Boolean value
       def list(bool)
         raise InvalidBooleanError unless [true,false].include? bool
-        @list = bool
+        @attributes[:list] = bool
       end
 
       # DSL Setter
@@ -62,7 +68,7 @@ module Snapi
       # @param bool, Boolean value
       def required(bool)
         raise InvalidBooleanError unless [true,false].include? bool
-        @required = bool
+        @attributes[:required] = bool
       end
 
       # DSL Setter
@@ -75,7 +81,7 @@ module Snapi
       def type(type)
         valid_types = [:boolean, :enum, :string, :number, :timestamp]
         raise InvalidTypeError unless valid_types.include?(type)
-        @type = type
+        @attributes[:type] = type
       end
 
       # DSL Setter
@@ -90,7 +96,7 @@ module Snapi
       # @param values, Array
       def values(values)
         raise InvalidValuesError unless values.class == Array
-        @values = values
+        @attributes[:values] = values
       end
 
       # Check if a value provided will suffice for the way
@@ -99,22 +105,24 @@ module Snapi
       # @param input, Just about anything...
       # @returns Boolean. true if valid
       def valid_input?(input)
-        case @type
+        case @attributes[:type]
         when :boolean
           [true,false].include?(input)
         when :enum
-          raise MissingValuesError unless @values
-          raise InvalidValuesError unless @values.class == Array
+          raise MissingValuesError unless @attributes[:values]
+          raise InvalidValuesError unless @attributes[:values].class == Array
 
-          @values.include?(input)
+          @attributes[:values].include?(input)
         when :string
-          format = @format || :anything
+          format = @attributes[:format] || :anything
           Validator.valid_input?(format, input)
         when :number
           [Integer, Fixnum].include?(input.class)
         when :timestamp
           # TODO timestamp pending
           raise PendingBranchError
+        else
+          false
         end
       end
     end
