@@ -17,14 +17,22 @@ This has only been used on `1.9.3` but is should run fine on `1.9+` and `2.x+`
 
 ## Usage
 
-Usually code just so here is a sample implementation
+Simple Exmaple:
 
 ```ruby
+# readme_sample.rb
 require 'snapi'
 require 'json'
 
-class Scanner 
-  include Snapi::BasicCapability
+class ScannerLibrary
+  def self.scan(args)
+    # ...
+  end
+end
+
+class Scanner
+  include Snapi::Capability
+
   function :scan do |fn|
     fn.argument :target do |arg|
       arg.required true
@@ -37,15 +45,23 @@ class Scanner
     end
     fn.return :structured
   end
+
+  library ScannerLibrary
+
 end
+
+puts "Functions:"
+puts
+puts JSON.pretty_generate Scanner.functions
+puts
+puts "Library: #{Scanner.library_class}"
+puts "Valid?:  #{Scanner.valid_library_class?.to_s.capitalize}"
 ```
 
-The `Scanner` class in this example would respond to a `functions` message as
-follows. 
+Which results in the following output:
 
 ```ruby
-irb> puts JSON.pretty_generate Scanner.functions
-#=> nil
+Functions:
 
 {
   "scan": {
@@ -54,20 +70,23 @@ irb> puts JSON.pretty_generate Scanner.functions
       "default_value": null,
       "format": "address",
       "required": true,
-      "list": false,
+      "list": true,
       "type": "string",
       "values": null
     },
     "port": {
       "default_value": null,
       "format": null,
-      "required": false,
+      "required": null,
       "list": null,
       "type": "string",
       "values": null
     }
   }
 }
+
+Library: ScannerLibrary
+Valid?:  True
 ```
 
 *Note:* this was converted to JSON for readability
