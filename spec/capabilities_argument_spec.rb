@@ -22,7 +22,7 @@ describe Snapi::Capabilities::Argument do
   end
 
   it "can return a hash of its own options" do
-    subject.attributes.keys.sort.should == [:default_value, :format, :list, :required, :type, :values]
+    subject.attributes.keys.sort.should == []
   end
 
   describe "can validated types such as" do

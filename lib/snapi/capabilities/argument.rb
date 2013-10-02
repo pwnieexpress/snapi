@@ -17,14 +17,14 @@ module Snapi
       #
       # @returns Hash of attributes
       def attributes
-        {
-          :default_value => @default_value,
-          :format => @format,
-          :required => @required,
-          :list => @list,
-          :type => @type,
-          :values => @values
-        }
+        output = {}
+        output[:default_value] = @default_value if @default_value
+        output[:format]        = @format        if @format
+        output[:required]      = @required      if @required
+        output[:list]          = @list          if @list
+        output[:type]          = @type          if @type
+        output[:values]        = @values        if @values
+        output
       end
 
       # DSL Setter

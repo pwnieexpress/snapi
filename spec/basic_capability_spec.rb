@@ -47,7 +47,7 @@ describe Snapi::BasicCapability do
             :required => true,
             :list => true,
             :type => :enum,
-            :values => nil}
+            }
           }
         }
       PrincessBubblegm.functions.should == expected_return
