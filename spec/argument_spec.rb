@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Snapi::Capabilities::Argument do
+describe Snapi::Argument do
   it "is a class"  do
     subject.class.class.should == Class
   end
@@ -27,7 +27,7 @@ describe Snapi::Capabilities::Argument do
 
   describe "can validated types such as" do
     it ":boolean" do
-      a = Snapi::Capabilities::Argument.new
+      a = Snapi::Argument.new
       a.type :boolean
       a.valid_input?(true).should     == true
       a.valid_input?(false).should    == true
@@ -38,7 +38,7 @@ describe Snapi::Capabilities::Argument do
     end
 
     it ":string" do
-      a = Snapi::Capabilities::Argument.new
+      a = Snapi::Argument.new
       a.type :string
       a.valid_input?(10.0).should     == false
       a.valid_input?(100).should      == false
@@ -51,7 +51,7 @@ describe Snapi::Capabilities::Argument do
     end
 
     it ":string with format" do
-      a = Snapi::Capabilities::Argument.new
+      a = Snapi::Argument.new
       a.type :string
       a.format :ip
       a.valid_input?(10.0).should          == false
@@ -66,7 +66,7 @@ describe Snapi::Capabilities::Argument do
     end
 
     it ":enum with values" do
-      a = Snapi::Capabilities::Argument.new
+      a = Snapi::Argument.new
       a.type :enum
       a.values [:a,:b,:c]
       a.valid_input?(10.0).should     == false
@@ -83,7 +83,7 @@ describe Snapi::Capabilities::Argument do
     end
 
     it ":number" do
-      a = Snapi::Capabilities::Argument.new
+      a = Snapi::Argument.new
       a.type :number
       a.valid_input?(100000000).should == true
       a.valid_input?(10.0).should      == false

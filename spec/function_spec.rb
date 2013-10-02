@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Snapi::Capabilities::Function do
+describe Snapi::Function do
   it "can take an argument" do
     subject.argument :test do |arg|
       arg.default_value  "test"
