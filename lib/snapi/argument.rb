@@ -34,8 +34,6 @@ module Snapi
     # @param value, value to set
     def []=(key, value)
       raise InvalidArgumentAttributeError unless valid_attributes.include?(key)
-
-      #TODO is this an awful idea?
       send(key, value)
     end
 

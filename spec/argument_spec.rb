@@ -5,6 +5,27 @@ describe Snapi::Argument do
     subject.class.class.should == Class
   end
 
+  it "has an attributes hash" do
+    subject.attributes.should == {}
+  end
+
+  it "responds to hash style queries" do
+    subject[:does_not_exist].should == nil
+  end
+
+  it "responds to hash style queries" do
+    subject[:default_value] = "some value"
+    subject[:default_value].should == subject.attributes[:default_value]
+  end
+
+  it "protects from illegal keys being set" do
+    begin
+    subject[:dude_why_would_you_do_this] = "WHO CARES WHAT THIS IS BECAUSE IT WILL NOT GET SET"
+    rescue => error
+      error.class.should == Snapi::InvalidArgumentAttributeError
+    end
+  end
+
   it "can have default_value set" do
     subject.default_value("test").should == "test"
   end
