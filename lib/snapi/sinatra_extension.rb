@@ -11,9 +11,7 @@ module Snapi
     end
 
     # TODO use Sinatra::Namespace?
-    Snapi.capabilities.each do |slug,klass|
-      require 'pry'
-      binding.pry
+    Snapi.capabilities.each do |slug, klass|
       base_path = "/#{slug.to_s}"
 
       get "#{base_path}/?" do
