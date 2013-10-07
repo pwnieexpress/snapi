@@ -111,6 +111,19 @@ module Snapi
         return false unless functions[function]
         functions[function].valid_args?(args)
       end
+
+      # Accepts arguments and sends the args to the library class
+      # version of the function assuming that the function has been declared
+      # and the library class also includes that function
+      #
+      # @param function Symbolic name to reference the function out of the @functions hash
+      # @param args hash of arguments
+      # @returns God only knows, my friend, God only know
+      def run_function(function,args)
+        raise InvalidFunctionCallError         unless valid_function_call?(function, args)
+        raise LibraryClassMissingFunctionError unless valid_library_class?
+        library_class.send(function,args)
+      end
     end
   end
 end

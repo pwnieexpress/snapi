@@ -111,7 +111,7 @@ describe Snapi::BasicCapability do
     end
   end
 
-  it "validates a hash of arguments against a function" do
+  describe "can run a function with a hash of arguments" do
     class IceKing < Snapi::BasicCapability
       function :ice_attack do |fn|
         fn.argument :victim do |arg|
@@ -121,10 +121,40 @@ describe Snapi::BasicCapability do
       end
     end
 
-    IceKing.valid_function_call?(:icicle, {:victim => "Gunther"}).should == false
-    IceKing.valid_function_call?(:ice_attack, {}).should == false
-    IceKing.valid_function_call?(:ice_attack, {:victim => "Gunther"}).should == true
+    it "validates a hash of arguments against a function" do
+      IceKing.valid_function_call?(:icicle, {:victim => "Gunther"}).should == false
+      IceKing.valid_function_call?(:ice_attack, {}).should == false
+      IceKing.valid_function_call?(:ice_attack, {:victim => "Gunther"}).should == true
+    end
 
+    it "raises errors when invalid args or function are sent" do
+      begin
+        IceKing.run_function(:icicle, {:victim => "Gunther"}).should == false
+      rescue => e
+        e.class.should == Snapi::InvalidFunctionCallError
+      end
+    end
 
+    it "raises errors when the library class does not support the requested library " do
+      begin
+        IceKing.run_function(:ice_attack, {:victim => "Gunther"}).should == false
+      rescue => e
+        e.class.should == Snapi::LibraryClassMissingFunctionError
+      end
+    end
+
+    it "runs the function if available in the library class" do
+      class IceWand
+        def self.ice_attack(args={})
+          "ZAP #{args[:victim].upcase}!"
+        end
+      end
+
+      class IceKing
+        library IceWand
+      end
+
+      IceKing.run_function(:ice_attack, {:victim => "Gunther"}).should == "ZAP GUNTHER!"
+    end
   end
 end
