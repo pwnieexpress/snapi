@@ -28,18 +28,34 @@ end
 module SinatraExtension
   extend Sinatra::Extension
 
-  namespace Snapi.capability_root do
-    get "/" do
-      JSON.generate(Snapi.capabilities)
+  get "/?" do
+    JSON.generate(Snapi.capabilities)
+  end
+
+  # TODO actually use Sinatra::Namespace
+  Snapi.capabilities.each do |slug,klass|
+    base_path = "/#{slug.to_s}"
+    get "#{base_path}/?" do
+      JSON.generate(klass.to_hash)
+    end
+
+    klass.functions.each do |fn,_|
+      get "#{base_path}/#{fn.to_s}/?" do
+        klass.run_function(fn,params)
+      end
     end
   end
 end
 
 class AwwwwwwwwwSnap < Sinatra::Base
-  register SinatraExtension
+  register Sinatra::Namespace
 
   get '/' do
     "SNAPI SAMPLE APP DAWG"
+  end
+
+  namespace Snapi.capability_root do
+    register SinatraExtension
   end
 
   run! if app_file == $0
