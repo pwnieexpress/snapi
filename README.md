@@ -20,21 +20,20 @@ This has only been used on `1.9.3` but is should run fine on `1.9+` and `2.x+`
 Simple Exmaple:
 
 ```ruby
-# readme_sample.rb
-
 require 'snapi'
 require 'json'
 
 class ScannerLibrary
   def self.scan(args)
-    # ...
+    #                                   _ 
+    #  _| _    _|_|_  _    _|_|_  o __ (_|
+    # (_|(_)    |_| |(/_    |_| | | | |__|
+    #
   end
 end
 
 class Scanner
-
   include Snapi::Capability
-
   function :scan do |fn|
     fn.argument :target do |arg|
       arg.required true
@@ -47,51 +46,9 @@ class Scanner
     end
     fn.return :structured
   end
-
   library ScannerLibrary
-
 end
-
-puts "Functions:"
-puts
-puts JSON.pretty_generate Scanner.to_hash
-puts
-puts "Library: #{Scanner.library_class}"
-puts "Valid?:  #{Scanner.valid_library_class?.to_s.capitalize}"
-puts
-puts "Snapi Capabilities:" + Snapi.capabilities.inspect
 ```
-
-Which results in the following output:
-
-```
-
-Functions:
-
-{
-  "scanner": {
-    "scan": {
-      "return_type": "structured",
-      "target": {
-        "required": true,
-        "list": true,
-        "type": "string",
-        "format": "address"
-      },
-      "port": {
-        "type": "string"
-      }
-    }
-  }
-}
-
-Library: ScannerLibrary
-Valid?:  True
-
-Snapi Capabilities: {:scanner=>Scanner}
-```
-
-*Note:* this was converted to JSON for readability
 
 ## Project Goals & Name
 
