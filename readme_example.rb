@@ -8,9 +8,7 @@ class ScannerLibrary
 end
 
 class Scanner
-
   include Snapi::Capability
-
   function :scan do |fn|
     fn.argument :target do |arg|
       arg.required true
@@ -25,12 +23,11 @@ class Scanner
   end
 
   library ScannerLibrary
-
 end
 
 puts "Functions:"
 puts
-puts JSON.pretty_generate Scanner.functions
+puts JSON.pretty_generate Scanner.to_hash
 puts
 puts "Library: #{Scanner.library_class}"
 puts "Valid?:  #{Scanner.valid_library_class?.to_s.capitalize}"

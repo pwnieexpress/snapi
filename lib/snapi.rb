@@ -10,7 +10,7 @@ module Snapi
   @@capabilities = {}
 
   def self.capabilities
-    @@capabilities
+    @@capabilities || {}
   end
 
   def self.register_capability(klass)
