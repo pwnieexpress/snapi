@@ -17,10 +17,10 @@ module Snapi
   end
 
   def self.capability_root
+    # todo make this configurable
     "/plugins/?"
   end
 end
 
-# This depends on Snapi module being more
-# robustly defined as above
+# This depends on Snapi module being defined as above
 require "snapi/sinatra_extension"
