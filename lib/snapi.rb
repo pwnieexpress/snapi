@@ -16,4 +16,8 @@ module Snapi
   def self.register_capability(klass)
     @@capabilities[klass.namespace] = klass
   end
+
+  def self.capability_root
+    "/plugins/?"
+  end
 end
