@@ -5,7 +5,6 @@ require "snapi/argument"
 require "snapi/function"
 require "snapi/capability"
 
-
 module Snapi
   @@capabilities = {}
 
@@ -21,3 +20,7 @@ module Snapi
     "/plugins/?"
   end
 end
+
+# This depends on Snapi module being more
+# robustly defined as above
+require "snapi/sinatra_extension"
