@@ -25,23 +25,25 @@ module Villains
   end
 end
 
-module SinatraExtension
-  extend Sinatra::Extension
+module Snapi
+  module SinatraExtension
+    extend Sinatra::Extension
 
-  get "/?" do
-    JSON.generate(Snapi.capabilities)
-  end
-
-  # TODO actually use Sinatra::Namespace
-  Snapi.capabilities.each do |slug,klass|
-    base_path = "/#{slug.to_s}"
-    get "#{base_path}/?" do
-      JSON.generate(klass.to_hash)
+    get "/?" do
+      JSON.generate(Snapi.capabilities)
     end
 
-    klass.functions.each do |fn,_|
-      get "#{base_path}/#{fn.to_s}/?" do
-        klass.run_function(fn,params)
+    # TODO actually use Sinatra::Namespace
+    Snapi.capabilities.each do |slug,klass|
+      base_path = "/#{slug.to_s}"
+      get "#{base_path}/?" do
+        JSON.generate(klass.to_hash)
+      end
+
+      klass.functions.each do |fn,_|
+        get "#{base_path}/#{fn.to_s}/?" do
+          klass.run_function(fn,params)
+        end
       end
     end
   end
@@ -55,7 +57,7 @@ class AwwwwwwwwwSnap < Sinatra::Base
   end
 
   namespace Snapi.capability_root do
-    register SinatraExtension
+    register Snapi::SinatraExtension
   end
 
   run! if app_file == $0
