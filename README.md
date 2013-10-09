@@ -50,6 +50,28 @@ class Scanner
 end
 ```
 
+## Sinatra Extension
+
+A Sinatra application can be extended with this functionality as follows.
+
+```ruby
+class MyAPi < Sinatra::Base
+  register Sinatra::Namespace
+
+  namespace Snapi.capability_root do
+    register Snapi::SinatraExtension
+  end
+end
+```
+
+When loaded this application will offer the following routes:
+
+```
+# /plugins/
+# /plugins/scanner/
+# /plugins/scanner/scan/
+```
+
 ## Project Goals & Name
 
 I literally woke up in the middle of the night with the idea for a modular

@@ -1,12 +1,12 @@
 require 'rubygems'
 require 'sinatra'
 require 'sinatra/contrib'
-require File.expand_path '../lib/snapi.rb', __FILE__
+require 'snapi'
 
 module Villains
   class Gunther
     def self.kidnap(args={})
-      "AHAHAHA!!! GOT THE PRINCESS!!! #{args[:princess].upcase} I JUST WANT A DATE"
+      "AHAHAHA!!! GOT THE PRINCESS!!! #{ args[:princess].upcase } I JUST WANT A DATE"
     end
   end
 
