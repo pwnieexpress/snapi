@@ -32,6 +32,8 @@ module Snapi
         raise InvalidFunctionCallError
       end
 
+      # TODO add response_wrapper which ensures that the return data from the
+      # function matches the type declared in the capabilities function defitition
       response = Snapi.capabilities[@capability].run_function(@function,params)
       response.class == String ? response : JSON.generate(response)
     end
