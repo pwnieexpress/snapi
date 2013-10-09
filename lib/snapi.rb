@@ -4,6 +4,7 @@ require "snapi/errors"
 require "snapi/argument"
 require "snapi/function"
 require "snapi/capability"
+require "snapi/version"
 
 module Snapi
   @@capabilities = {}
