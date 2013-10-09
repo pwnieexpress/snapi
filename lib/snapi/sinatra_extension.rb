@@ -10,19 +10,30 @@ module Snapi
       JSON.generate(Snapi.capabilities)
     end
 
-    # TODO use Sinatra::Namespace?
-    Snapi.capabilities.each do |slug, klass|
-      base_path = "/#{slug.to_s}"
+    get "/:capability/?" do
+      @capability = params.delete(:capability).to_sym
 
-      get "#{base_path}/?" do
-        JSON.generate(klass.to_hash)
+      unless Snapi.valid_capabilities.include?(@capability)
+        raise InvalidCapabilityError
       end
 
-      klass.functions.each do |fn,_|
-        get "#{base_path}/#{fn.to_s}/?" do
-          klass.run_function(fn,params)
-        end
-      end
+      Snapi.capabilities[@capability].to_hash
     end
+
+    get "/:capability/:function/?" do
+      @capability = params.delete(:capability).to_sym
+      @function = params.delete(:function).to_sym
+
+      unless Snapi.valid_capabilities.include?(@capability)
+        raise InvalidCapabilityError
+      end
+
+      unless Snapi.capabilities[@capability].valid_function_call?(@function,params)
+        raise InvalidFunctionCallError
+      end
+
+      Snapi.capabilities[@capability].run_function?(@function,params)
+    end
+
   end
 end

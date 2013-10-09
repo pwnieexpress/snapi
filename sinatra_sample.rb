@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'sinatra/contrib'
-require 'snapi'
+require File.expand_path '../lib/snapi.rb', __FILE__
 
 module Villains
   class Gunther
@@ -12,6 +12,7 @@ module Villains
 
   class IceKing
     include Snapi::Capability
+
     function :kidnap do |fn|
       fn.argument :princess do |arg|
         arg.required true

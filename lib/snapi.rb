@@ -16,6 +16,10 @@ module Snapi
     @@capabilities[klass.namespace] = klass
   end
 
+  def self.valid_capabilities
+    @@capabilities.keys
+  end
+
   def self.capability_root
     # todo make this configurable
     "/plugins/?"
@@ -24,3 +28,4 @@ end
 
 # This depends on Snapi module being defined as above
 require "snapi/sinatra_extension"
+
