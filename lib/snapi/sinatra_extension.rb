@@ -12,7 +12,6 @@ module Snapi
 
     get "/:capability/?" do
       @capability = params.delete("capability").to_sym
-      require 'pry'
 
       unless Snapi.valid_capabilities.include?(@capability)
         raise InvalidCapabilityError
