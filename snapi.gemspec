@@ -1,5 +1,4 @@
-# Rake required to use
-# File.ist[].to_s as in s.files=() below
+# Rake required to use FileList[].to_s as in s.files=() below
 require 'rake'
 require File.expand_path '../lib/snapi/version.rb', __FILE__
 
