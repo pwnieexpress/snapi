@@ -64,17 +64,6 @@ module Snapi
         @library_class = klass
       end
 
-      # Test if the set library class is valid based on mapping
-      # the keys of the @functions hash against the methods available
-      # to the @library_class
-      #
-      # @returns Boolean, true if @library_class offers all the methods needed
-      def valid_library_class?
-        self.functions.keys.each do |function_name|
-          return false unless @library_class.methods.include?(function_name)
-        end
-        true
-      end
 
       # Convert the class name to a snake-cased symbol namespace
       # representation of class name for use in namespacing
@@ -123,6 +112,18 @@ module Snapi
         raise InvalidFunctionCallError         unless valid_function_call?(function, args)
         raise LibraryClassMissingFunctionError unless valid_library_class?
         library_class.send(function,args)
+      end
+
+      # Test if the set library class is valid based on mapping
+      # the keys of the @functions hash against the methods available
+      # to the @library_class
+      #
+      # @returns Boolean, true if @library_class offers all the methods needed
+      def valid_library_class?
+        self.functions.keys.each do |function_name|
+          return false unless library_class.methods.include?(function_name)
+        end
+        true
       end
     end
   end

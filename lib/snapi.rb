@@ -22,7 +22,6 @@ module Snapi
   end
 
   def self.capability_root
-    # todo make this configurable
     "/plugins/?"
   end
 end

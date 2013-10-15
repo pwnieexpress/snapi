@@ -25,6 +25,23 @@ module Villains
   end
 end
 
+module Heroes
+  class FinnTheHuman
+    include Snapi::Capability
+    function :rescue do |fn|
+      fn.argument :princess do |arg|
+        arg.required true
+        arg.type :string
+      end
+      fn.return :raw
+    end
+
+    def self.rescue(args={})
+      "GODDAMNIT ICEKING! GIVE BACK #{ args[:princess].upcase }!!"
+    end
+  end
+end
+
 class AwwwwwwwwwSnap < Sinatra::Base
   register Sinatra::Namespace
 
