@@ -7,7 +7,11 @@ module Snapi
     extend Sinatra::Extension
 
     get "/?" do
-      JSON.generate(Snapi.capabilities)
+      capabilities = Snapi.capabilities
+      capabilities.keys.each do |key|
+        capabilities[key] = capabilities[key].to_hash
+      end
+      JSON.generate(capabilities)
     end
 
     get "/:capability/?" do

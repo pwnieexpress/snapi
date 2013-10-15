@@ -85,9 +85,7 @@ module Snapi
       def to_hash
         fn_hash = {}
         functions.each {|k,v| fn_hash[k] = v.to_hash } if functions
-        {
-          self.namespace => fn_hash
-        }
+        fn_hash
       end
 
       # Helper to check if a function call to the capability would

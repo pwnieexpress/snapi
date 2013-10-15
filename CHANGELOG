@@ -1,3 +1,5 @@
+0.0.3
+-- Modify how the return values behave for the sinatra extension
 0.0.2
 -- Added SinatraExtension 
 0.0.1
