@@ -1,3 +1,6 @@
+0.0.5
+-- remove binding.pry in sinatra extension
+-- Add GPLv3 License
 0.0.4
 -- Not sure why i needed to push againt but I had to bump
    the version to re-push to rubygems.org
