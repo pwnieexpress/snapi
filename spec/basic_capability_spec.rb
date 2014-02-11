@@ -17,7 +17,7 @@ describe Snapi::BasicCapability do
           fn.return :raw
         end
       end
-      lemon_grab = {:prince_lemon_grab => {:summon_zombies => { :return_type => :raw}}}
+      lemon_grab = {:summon_zombies => { :return_type => :raw}}
 
       PrinceLemonGrab.to_hash.should == lemon_grab
     end
@@ -50,7 +50,7 @@ describe Snapi::BasicCapability do
             }
           }
         }
-      PrincessBubblegum.to_hash.should == { PrincessBubblegum.namespace => expected_return}
+      PrincessBubblegum.to_hash.should ==  expected_return
     end
 
     it "doesn't shared functions between inherited classes" do

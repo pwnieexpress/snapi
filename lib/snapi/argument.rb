@@ -48,7 +48,10 @@ module Snapi
     #
     # @returns Array of Symbols
     def valid_attributes
-      [:default_value, :format, :list, :required, :type, :values]
+      [
+        :default_value, :format, :list,
+        :required, :type, :values, :name, :description
+      ]
     end
 
     # DSL Setter
