@@ -1,6 +1,9 @@
 # Snapi
 
+[![Gem Version](https://badge.fury.io/rb/snapi.png)](http://badge.fury.io/rb/snapi)
+
 Snapi is a modular API functionality definition tool.
+
 
 ## Installation
 
