@@ -13,6 +13,10 @@ module Snapi
     @@capabilities || {}
   end
 
+  def self.[](key)
+    @@capabilities[key]
+  end
+
   def self.register_capability(klass)
     @@capabilities[klass.namespace] = klass
   end
@@ -23,6 +27,16 @@ module Snapi
 
   def self.capability_root
     "/plugins/?"
+  end
+
+  def self.capability_hash
+    valid_capabilities.each_with_object({}) do |coll,cap|
+      coll[cap] = Snapi[key].to_hash
+    end
+  end
+
+  def self.has_capability?(capability)
+    valid_capabilities.include?(capability)
   end
 end
 

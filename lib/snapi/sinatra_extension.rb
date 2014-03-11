@@ -6,38 +6,43 @@ module Snapi
     extend Sinatra::Extension
 
     get "/?" do
-      capabilities = Snapi.capabilities.dup
-      capabilities.keys.each do |key|
-        capabilities[key] = capabilities[key].to_hash
-      end
-      JSON.generate(capabilities)
+      JSON.generate(Snapi.capability_hash)
     end
 
     get "/:capability/?" do
       @capability = params.delete("capability").to_sym
 
-      unless Snapi.valid_capabilities.include?(@capability)
+      if Snapi.has_capability?(@capability)
+        JSON.generate(Snapi[@capability].to_hash)
+      else
+        # TODO: don't raise here...
         raise InvalidCapabilityError
       end
-
-      JSON.generate(Snapi.capabilities[@capability].to_hash)
     end
 
     get "/:capability/:function/?" do
       @capability = params.delete("capability").to_sym
       @function   = params.delete("function").to_sym
 
-      unless Snapi.valid_capabilities.include?(@capability)
+      unless Snapi.has_capability?(@capability)
+        # TODO: don't raise here...
         raise InvalidCapabilityError
       end
 
-      unless Snapi.capabilities[@capability].valid_function_call?(@function,params)
+      unless Snapi[@capability].valid_function_call?(@function,params)
+        # TODO: don't raise here...
         raise InvalidFunctionCallError
       end
 
-      # TODO add response_wrapper which ensures that the return data from the
+      # TODO
+      # TODO
+      # TODO
+      # Add response_wrapper which ensures that the return data from the
       # function matches the type declared in the capabilities function defitition
-      response = Snapi.capabilities[@capability].run_function(@function,params)
+      # TODO
+      # TODO
+      # TODO
+      response = Snapi[@capability].run_function(@function,params)
       response.class == String ? response : JSON.generate(response)
     end
   end

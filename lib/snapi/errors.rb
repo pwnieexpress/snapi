@@ -24,7 +24,6 @@ module Snapi
   LibraryClassMissingFunctionError = Class.new(StandardError)
   MissingValuesError               = Class.new(StandardError)
 
-
   # TODO remove
   PendingBranchError       = Class.new(StandardError)
 end
