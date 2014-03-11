@@ -5,7 +5,7 @@ require File.expand_path '../lib/snapi/version.rb', __FILE__
 Gem::Specification.new do |s|
   s.name        = 'snapi'
   s.version     = Snapi::VERSION
-  s.date        = '2013-10-09'
+  s.date        = Time.now.strftime("%Y-%m-%d")
   s.summary     = "Snapi"
   s.description = "Modular Capability Disclosure DSL"
   s.homepage    = "https://github.com/pwnieexpress/snapi"
