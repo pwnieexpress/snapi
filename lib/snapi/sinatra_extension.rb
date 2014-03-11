@@ -2,12 +2,11 @@ require 'json'
 require 'sinatra/contrib'
 
 module Snapi
-  # TODO document, test, make more robust
   module SinatraExtension
     extend Sinatra::Extension
 
     get "/?" do
-      capabilities = Snapi.capabilities
+      capabilities = Snapi.capabilities.dup
       capabilities.keys.each do |key|
         capabilities[key] = capabilities[key].to_hash
       end
@@ -41,6 +40,5 @@ module Snapi
       response = Snapi.capabilities[@capability].run_function(@function,params)
       response.class == String ? response : JSON.generate(response)
     end
-
   end
 end
