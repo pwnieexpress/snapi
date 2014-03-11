@@ -2,7 +2,6 @@ require 'json'
 require 'sinatra/contrib'
 
 module Snapi
-  # TODO document, test, make more robust
   module SinatraExtension
     extend Sinatra::Extension
 
