@@ -26,12 +26,13 @@ module Snapi
   end
 
   def self.capability_root
+    #TODO customize this
     "/plugins/?"
   end
 
   def self.capability_hash
-    valid_capabilities.each_with_object({}) do |coll,cap|
-      coll[cap] = Snapi[key].to_hash
+    valid_capabilities.each_with_object({}) do |cap,coll|
+      coll[cap] = Snapi[cap].to_hash
     end
   end
 
