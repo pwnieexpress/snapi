@@ -17,7 +17,7 @@ describe Snapi::BasicCapability do
           fn.return :raw
         end
       end
-      lemon_grab = {:summon_zombies => { :return_type => :raw}}
+      lemon_grab = {:summon_zombies=>{:return_type=>:raw, :arguments=>[]}}
 
       PrinceLemonGrab.to_hash.should == lemon_grab
     end
@@ -40,17 +40,19 @@ describe Snapi::BasicCapability do
 
       expected_return = {
         :create_candy_person => {
-          :return_type =>:structured,
-          :candy_base  => {
+          :return_type => :structured,
+          :arguments => [{
+            :name          => :candy_base,
             :default_value => "sugar",
-            :format => :anything,
-            :required => true,
-            :list => true,
-            :type => :enum,
-            }
-          }
+            :format        => :anything,
+            :list          => true,
+            :required      => true,
+            :type          => :enum
+        }]
         }
-      PrincessBubblegum.to_hash.should ==  expected_return
+      }
+
+        PrincessBubblegum.to_hash.should ==  expected_return
     end
 
     it "doesn't shared functions between inherited classes" do

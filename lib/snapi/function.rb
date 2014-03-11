@@ -45,9 +45,9 @@ module Snapi
     #
     # @returns Hash representation of Function
     def to_hash
-      args_hash =  {}
-      arguments.each { |k,v| args_hash[k] = v.attributes } if arguments
-      { return_type: return_type }.merge args_hash
+      args =  []
+      arguments.each { |k,v| args <<  {name: k }.merge(v.attributes) } if arguments
+      { return_type: return_type, arguments: args }
     end
 
     # This method accepts a hash (as from a web request) which it
