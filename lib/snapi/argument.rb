@@ -50,7 +50,8 @@ module Snapi
     def valid_attributes
       [
         :default_value, :format, :list,
-        :required, :type, :values, :name, :description
+        :required, :type, :values, :name,
+        :description
       ]
     end
 
@@ -132,7 +133,6 @@ module Snapi
       when :enum
         raise MissingValuesError unless @attributes[:values]
         raise InvalidValuesError unless @attributes[:values].class == Array
-
         @attributes[:values].include?(input)
       when :string
         format = @attributes[:format] || :anything

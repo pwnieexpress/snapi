@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Snapi::Argument do
   it "is a class"  do
-    subject.class.class.should == Class
+    Snapi::Argument.class.should == Class
   end
 
   it "has an attributes hash" do
@@ -46,7 +46,7 @@ describe Snapi::Argument do
     subject.attributes.keys.sort.should == []
   end
 
-  describe "can validated types such as" do
+  describe "can validate types such as" do
     it ":boolean" do
       a = Snapi::Argument.new
       a.type :boolean
