@@ -2,31 +2,26 @@
 
 Snapi is a modular API functionality definition tool.
 
-## Installation
-
 [![Gem Version](https://badge.fury.io/rb/snapi.png)](http://badge.fury.io/rb/snapi)
+
+## Usage
+
+### Installation
 
 Install by simply typing `gem install snapi`. This has only been tested on
 `1.9.3` but is should run fine on `1.9+` and `2.x+`
 
-## Usage
-
-#### Pending
-
 ### Snapi
 
-#### Pending
+The main access point to the functionality that has been defined is through the
+top level `Snapi` module.
 
-### Functionality Disclosure
+#### Functionality Disclosure
 
-#### Pending
+`Snapi` is intended to provided *functionality disclosure* so that different
+APIs can be defined for different purposes quickly and in a way that self
+documents and organizes the functionality.
 
-```ruby
-Snapi[:capability]
-Snapi.capabilities
-Snapi.valid_capabilities
-Snapi.has_capability?(:capability)
-```
 
 ### Capabilities
 
@@ -48,6 +43,34 @@ class SayHello
     puts "Hello World"
   end
 end
+```
+
+#### Working with Snapi Capabilities
+
+`Snapi` provides a number of helpful ways to view and access and work with
+capabilities.
+
+##### Check for the presence of a capability:
+
+```ruby
+Snapi.has_capability?(:capability)
+#=> true / false
+```
+
+##### Access a specific capability by name:
+
+```ruby
+Snapi[:capability]
+#=> the class in question
+```
+##### See all capabilities
+
+```ruby
+Snapi.capabilities
+#=> Hash of Capability information
+
+Snapi.valid_capabilities
+#=> Array of the names of valid capabilities
 ```
 
 ### Functions
@@ -82,7 +105,7 @@ library ExternalRubyClass
 ```
 
 :exclamation: *Note:* This class *must* have valid class methods with an arity
-of 1 for the Capability
+of 1 for each function declared in the capability defition. 
 
 ### Sinatra Extension
 
