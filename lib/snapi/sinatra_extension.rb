@@ -5,15 +5,22 @@ module Snapi
   module SinatraExtension
 
     extend Sinatra::Extension
+
     helpers Snapi::SinatraExtensionHelper
 
-    get "/?" do
+    # Hello darkness, my old friend
+    def self.get_or_post(url,&block)
+      get(url,&block)
+      post(url,&block)
+    end
+
+    get_or_post "/?" do
       response_wrapper do
         Snapi.capability_hash
       end
     end
 
-    get "/:capability/?" do
+    get_or_post "/:capability/?" do
       @capability = params.delete("capability").to_sym
 
       response_wrapper do
@@ -25,7 +32,7 @@ module Snapi
       end
     end
 
-    get "/:capability/:function/?" do
+    get_or_post "/:capability/:function/?" do
       @capability = params.delete("capability").to_sym
       @function   = params.delete("function").to_sym
 
