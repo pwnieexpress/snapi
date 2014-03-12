@@ -75,20 +75,42 @@ Snapi.valid_capabilities
 
 ### Functions
 
-#### Pending
+Functions are declared inside the capability class.  At a minimum the functions
+take a name which maps to a class method defined on the capability class.
+
+The minimal function as declared above looks like:
+
+```ruby
+function :hello_world
+```
+
+:exclamation: *Note:* class methods which serve functions demand having an
+arity of 1. They should expect a hash containing keyed values which map to the
+arguments defined in the `Snapi` function definition.
 
 #### Arguments
 
-##### Pending
+Functions are handy but they are much more useful when you begin to declare
+arguments for them. Lets define a more interested method for our capability.
 
 ```ruby
-fn.argument :target do |arg|
-  arg.required true
-  arg.list true
-  arg.type :string
-  arg.format :address
+function :hello do |fn|
+  fn.argument :friend do |arg|
+    arg.required false
+    arg.type :string
+  end
 end
 ```
+
+##### Argument Attributes
+###### default_value
+###### format
+##### list
+###### required
+###### type
+###### values
+###### name
+###### description
 
 #### Return Type
 
