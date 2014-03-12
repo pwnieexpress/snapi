@@ -39,8 +39,10 @@ class SayHello
   include Snapi::Capability
   function :hello_world
 
+  # Note, even if this doesn't require any external args it still requires an
+  # arity of 1.
   def self.hello_world(params)
-    puts "Hello World"
+    "Hello World"
   end
 end
 ```
@@ -96,13 +98,19 @@ arguments for them. Lets define a more interested method for our capability.
 ```ruby
 function :hello do |fn|
   fn.argument :friend do |arg|
-    arg.required false
+    arg.required true
     arg.type :string
   end
 end
 ```
 
 Now we can create more dynamic method to serve this function.
+
+```ruby
+def self.hello(params)
+  "Hello #{params[:friend]}"
+end
+```
 
 ##### Argument Attributes
 
@@ -207,11 +215,84 @@ end
 When loaded this application will offer the following routes:
 
 ```
+# /snapi/
+# /snapi/say_hello/
+# /snapi/say_hello/hello_world
+# /snapi/say_hello/hello
 ...
-# /plugins/
-# /plugins/say_hello/
-# /plugins/say_hello/hello_world
-...
+```
+
+#### The API
+
+If we run the [sample app](https://github.com/pwnieexpress/snapi/blob/develop/readme_sample.rb) we can make the following requests as either GET or
+POST:
+
+##### http://localhost:4567/snapi
+
+```
+{
+   "status":200,
+   "data":{
+      "say_hello":{
+         "hello_world":{
+            "return_type":null,
+            "arguments":[
+
+            ]
+         },
+         "hello":{
+            "return_type":null,
+            "arguments":[
+               {
+                  "name":"friend",
+                  "required":false,
+                  "type":"string"
+               }
+            ]
+         }
+      }
+   },
+   "execution_time":2.602e-05
+}
+```
+
+##### http://localhost:4567/snapi/hello_world
+
+```
+{
+   "status":200,
+   "data":{
+      "hello_world":{
+         "return_type":null,
+         "arguments":[
+
+         ]
+      },
+      "hello":{
+         "return_type":null,
+         "arguments":[
+            {
+               "name":"friend",
+               "required":true,
+               "type":"string"
+            }
+         ]
+      }
+   },
+   "execution_time":3.4522e-05
+}
+```
+
+##### http://localhost:4567/snapi/say_hello/hello?friend=Snapi
+
+```
+{
+   "status":200,
+   "data":{
+      "result":"Hello Snapi"
+   },
+   "execution_time":0.000346298
+}
 ```
 
 ## Project Goals & Name
