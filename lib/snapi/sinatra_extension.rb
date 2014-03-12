@@ -3,20 +3,25 @@ require 'sinatra/contrib'
 
 module Snapi
   module SinatraExtension
+
     extend Sinatra::Extension
+    helpers Snapi::SinatraExtensionHelper
 
     get "/?" do
-      JSON.generate(Snapi.capability_hash)
+      response_wrapper do
+        Snapi.capability_hash
+      end
     end
 
     get "/:capability/?" do
       @capability = params.delete("capability").to_sym
 
-      if Snapi.has_capability?(@capability)
-        JSON.generate(Snapi[@capability].to_hash)
-      else
-        # TODO: don't raise here...
-        raise InvalidCapabilityError
+      response_wrapper do
+        if Snapi.has_capability?(@capability)
+          Snapi[@capability].to_hash
+        else
+          raise InvalidCapabilityError
+        end
       end
     end
 
@@ -24,26 +29,23 @@ module Snapi
       @capability = params.delete("capability").to_sym
       @function   = params.delete("function").to_sym
 
-      unless Snapi.has_capability?(@capability)
-        # TODO: don't raise here...
-        raise InvalidCapabilityError
-      end
+      response_wrapper do
+        unless Snapi.has_capability?(@capability)
+          raise InvalidCapabilityError
+        end
 
-      unless Snapi[@capability].valid_function_call?(@function,params)
-        # TODO: don't raise here...
-        raise InvalidFunctionCallError
-      end
+        unless Snapi[@capability].valid_function_call?(@function,params)
+          raise InvalidFunctionCallError
+        end
 
-      # TODO
-      # TODO
-      # TODO
-      # Add response_wrapper which ensures that the return data from the
-      # function matches the type declared in the capabilities function defitition
-      # TODO
-      # TODO
-      # TODO
-      response = Snapi[@capability].run_function(@function,params)
-      response.class == String ? response : JSON.generate(response)
+        response = Snapi[@capability].run_function(@function,params)
+
+        unless response.class == Hash
+          response = { result: response }
+        end
+
+        response
+      end
     end
   end
 end

@@ -8,6 +8,10 @@ module Villains
     def self.kidnap(args={})
       "AHAHAHA!!! GOT THE PRINCESS!!! #{ args[:princess].upcase } I JUST WANT A DATE"
     end
+
+    def self.ice_attack(args={})
+      "HAHA ICE ATTACK!"
+    end
   end
 
   class IceKing
@@ -18,6 +22,10 @@ module Villains
         arg.required true
         arg.type :string
       end
+      fn.return :raw
+    end
+
+    function :ice_attack do |fn|
       fn.return :raw
     end
 
@@ -49,7 +57,7 @@ class AwwwwwwwwwSnap < Sinatra::Base
     "SNAPI SAMPLE APP DAWG"
   end
 
-  namespace Snapi.capability_root do
+  namespace '/plugins' do
     register Snapi::SinatraExtension
   end
 

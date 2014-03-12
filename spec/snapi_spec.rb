@@ -5,7 +5,7 @@ describe Snapi do
     Snapi.class.should == Module
   end
 
-  it "can return a has of registered capabilities" do
+  it "can return a hash of registered capabilities" do
     Snapi.capabilities.class.should == Hash
     Snapi.capabilities[:basic_capability].should == Snapi::BasicCapability
   end
