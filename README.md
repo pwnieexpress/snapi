@@ -1,22 +1,13 @@
 # Snapi
 
-[![Gem Version](https://badge.fury.io/rb/snapi.png)](http://badge.fury.io/rb/snapi)
-
 Snapi is a modular API functionality definition tool.
-
 
 ## Installation
 
-This hasn't been put on Rubygems yet so you still have to build the gem
-manually for now. 
+[![Gem Version](https://badge.fury.io/rb/snapi.png)](http://badge.fury.io/rb/snapi)
 
-```sh
-git clone git@github.com:pwnieexpress/snapi.git
-cd snapi
-gem build snapi.gemspec
-gem install snapi
-```
-This has only been used on `1.9.3` but is should run fine on `1.9+` and `2.x+`
+Install by simply typing `gem install snapi`. This has only been tested on
+`1.9.3` but is should run fine on `1.9+` and `2.x+`
 
 ## Usage
 
@@ -24,7 +15,6 @@ Simple Example:
 
 ```ruby
 require 'snapi'
-require 'json'
 
 class ScannerLibrary
   def self.scan(args)
@@ -49,6 +39,7 @@ class Scanner
     end
     fn.return :structured
   end
+
   library ScannerLibrary
 end
 ```
