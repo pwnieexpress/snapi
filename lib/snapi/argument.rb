@@ -80,6 +80,7 @@ module Snapi
     #
     # @param bool, Boolean value
     def list(bool)
+      #TODO work out kinks in list behavior...
       raise InvalidBooleanError unless [true,false].include? bool
       @attributes[:list] = bool
     end
@@ -141,7 +142,8 @@ module Snapi
         [Integer, Fixnum].include?(input.class)
       when :timestamp
         # TODO timestamp pending
-        raise PendingBranchError
+        # raise PendingBranchError
+        true
       else
         false
       end

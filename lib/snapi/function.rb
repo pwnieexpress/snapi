@@ -67,7 +67,12 @@ module Snapi
           if argument[:required]
             return false if args[name] == nil
           end
-          valid =  argument.valid_input?(args[name])
+
+          if argument[:default_value] && !args[name]
+            args[name] = argument[:default_value]
+          end
+
+          valid = argument.valid_input?(args[name])
         end
       else
         valid = true

@@ -88,9 +88,6 @@ module Snapi
     # Note base on lib/shells/gsm.rb
     ADAPTER_REGEX = /^(unlocked_gsm|verizon_virgin_mobile|tmobile)$/
     #
-    # Note set in lib/shells/scheduler.rb
-    CRON_REGEX = /^(1_minute|5_minutes|15_minutes|60_minutes)$/
-    #
     # Source:
     SIMPLE_COMMAND_REGEX = /^([a-zA-Z0-9\.\s\-\_\/\\\,\=]+)*$/i
     #
@@ -116,9 +113,6 @@ module Snapi
     #
     # SIMPLE ON / OFF (CHECKBOXES)
     ON_OFF_REGEX = /^(on|off)$/i
-    #
-    # Source:
-    STRING_REGEX = /^([a-zA-Z0-9\.\-\_]+)*$/i
     #
     # TRUE OR FALSE
     TRUEFALSE_REGEX = /^(true|false)$/i

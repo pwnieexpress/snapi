@@ -102,21 +102,79 @@ function :hello do |fn|
 end
 ```
 
+Now we can create more dynamic method to serve this function.
+
 ##### Argument Attributes
-###### default_value
-###### format
-##### list
-###### required
-###### type
-###### values
+
+Arguments can collect a bit of meta information as they are being defined.
+
 ###### name
+
+*Pending...*
+
+###### type
+
+Arguments can come in the following types:
+
+* `:boolean`
+* `:enum`: *not currently implemented*
+* `:string`
+* `:number`
+* `:timestamp`: *not currently implemented*
+
+###### default_value
+
+Provide a default value for non-required `:string` typed arguments.
+
+###### format
+
+Provide an expected validation format for `:string` typed arguments. 
+
+The following formats are currently implemented:
+
+* `:address`: a valid hostname, domain name, IPv4 or IPv6 address
+* `:anything`: Any string. This is the default used. (regex: `/.*/`)
+* `:bool`: A boolean value string containing `'true'` or `'false'`.
+* `:command`: Simple command regex containing alphanumeric, characters and basic punctionation
+* `:hostname`: A hostname
+* `:interface`: Simple interface validation like `<string><number>`
+* `:ip`, `ipv6`, `ipv4`: IP addresses
+* `:mac`: MAC Address
+* `:snapi_function_name`: Valid function name for Snapi
+* `:on_off`: A string containing `on` or `off` 
+* `:port`: A valid network port (1-65535)
+* `:uri`: Simplistic URI validation 
+
+###### list
+
+The `argument.list` attribute takes a boolean value and indicates that the
+argument should come as an array of elements, rather than a single one. 
+
+This is mostly useful as meta-information for the purposes of functionality
+disclosure and does not 
+
+:exclamation: *Note* list arguments are currently *not* validated even if
+defined as such.
+
+###### required
+
+*Pending...*
+
+###### values
+
+*Pending...*
+
 ###### description
+
+*Pending...*
 
 #### Return Type
 
-##### Pending
+##### *Pending*
 
-    fn.return :structured
+```ruby
+fn.return :structured
+```
 
 ### Library Class
 
