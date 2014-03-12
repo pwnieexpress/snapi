@@ -47,7 +47,6 @@ module Snapi
         :anything            => [/.*/],
         :bool                => [TRUEFALSE_REGEX],
         :command             => [SIMPLE_COMMAND_REGEX],
-        :cron                => [CRON_REGEX],
         :gsm_adapter         => [ADAPTER_REGEX],
         :hostname            => [HOSTNAME_REGEX],
         :interface           => [INTERFACE_REGEX],
@@ -56,12 +55,9 @@ module Snapi
         :ipv4                => [IP_V4_REGEX],
         :mac                 => [MAC_REGEX],
         :snapi_function_name => [SNAPI_FUNCTION_NAME],
-        :string              => [STRING_REGEX],
         :on_off              => [ON_OFF_REGEX],
         :port                => [PORT_REGEX],
         :uri                 => [URI_REGEX],
-        :username            => [HOSTNAME_REGEX],
-        :password            => [NUM_LETTERS_SP_CHARS]
       }
     end
 

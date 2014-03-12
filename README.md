@@ -108,10 +108,6 @@ Now we can create more dynamic method to serve this function.
 
 Arguments can collect a bit of meta information as they are being defined.
 
-###### name
-
-*Pending...*
-
 ###### type
 
 Arguments can come in the following types:
@@ -158,7 +154,7 @@ defined as such.
 
 ###### required
 
-*Pending...*
+Expecting `true` or `false` the required argument indicates to snapi if the argument MUST be included.
 
 ###### values
 
@@ -170,15 +166,22 @@ defined as such.
 
 #### Return Type
 
-##### *Pending*
+A return type can be defined for a function.
 
 ```ruby
 fn.return :structured
 ```
 
+Valid types:
+
+* `:structured`: Indicates structured output of some type
+* `:raw`: indicates a hash containing shell command run information like `:stdout` or `:exitstatus`
+* `:none`: indicates an unformated string output
+
 ### Library Class
 
-The `library` option on a capability can be used
+The `library` option on a capability can be used to make `Snapi` expect its
+defined functions to be served from another class. 
 
 ```ruby
 library ExternalRubyClass
