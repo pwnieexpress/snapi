@@ -11,40 +11,80 @@ Install by simply typing `gem install snapi`. This has only been tested on
 
 ## Usage
 
-Simple Example:
+#### Pending
+
+### Snapi
+
+#### Pending
+
+### Functionality Disclosure
+
+#### Pending
+
+```ruby
+Snapi[:capability]
+Snapi.capabilities
+Snapi.valid_capabilities
+Snapi.has_capability?(:capability)
+```
+
+### Capabilities
+
+Capabilities are core to Snapis API organizational structure. A capability
+represents a collection of functions and can, for many intents and purposes, be
+thought of as a kind of module.
+
+To create a capability start with a Ruby class and include the
+`Snapi::Capability` module.
 
 ```ruby
 require 'snapi'
 
-class ScannerLibrary
-  def self.scan(args)
-    #                                  
-    #  _| _    _|_|_  _    _|_|_  o __  _ 
-    # (_|(_)    |_| |(/_    |_| | | | |(_|
-    #                                  __|
-  end
-end
-
-class Scanner
+class SayHello
   include Snapi::Capability
-  function :scan do |fn|
-    fn.argument :target do |arg|
-      arg.required true
-      arg.list true
-      arg.type :string
-      arg.format :address
-    end
-    fn.argument :port do |arg|
-      arg.type :string
-    end
-    fn.return :structured
-  end
+  function :hello_world
 
-  library ScannerLibrary
+  def self.hello_world(params)
+    puts "Hello World"
+  end
 end
 ```
 
-## Sinatra Extension
+### Functions
+
+#### Pending
+
+#### Arguments
+
+##### Pending
+
+```ruby
+fn.argument :target do |arg|
+  arg.required true
+  arg.list true
+  arg.type :string
+  arg.format :address
+end
+```
+
+#### Return Type
+
+##### Pending
+
+    fn.return :structured
+
+### Library Class
+
+The `library` option on a capability can be used
+
+```ruby
+library ExternalRubyClass
+```
+
+:exclamation: *Note:* This class *must* have valid class methods with an arity
+of 1 for the Capability
+
+### Sinatra Extension
 
 A Sinatra application can be extended with this functionality as follows.
 
@@ -52,7 +92,7 @@ A Sinatra application can be extended with this functionality as follows.
 class MyAPi < Sinatra::Base
   register Sinatra::Namespace
 
-  namespace Snapi.capability_root do
+  namespace "/snapi" do
     register Snapi::SinatraExtension
   end
 end
@@ -61,9 +101,11 @@ end
 When loaded this application will offer the following routes:
 
 ```
+...
 # /plugins/
-# /plugins/scanner/
-# /plugins/scanner/scan/
+# /plugins/say_hello/
+# /plugins/say_hello/hello_world
+...
 ```
 
 ## Project Goals & Name
@@ -82,5 +124,6 @@ The ultimate goal being for an API to be able to define itself dynamically and
 dislose that functionality to remote systems and even do things like:
 
 * Dynamic Form Generation
-* API generation (TODO `snapi generate hosts plugin:crud`)
+* CLI Tool / Option Parser
 * Self Documentation
+

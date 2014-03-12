@@ -61,12 +61,18 @@ module Snapi
     # @returns Boolean
     def valid_args?(args={})
       valid = false
-      arguments.each do |name, argument|
-        if argument[:required]
-          return false if args[name] == nil
+
+      if arguments
+        arguments.each do |name, argument|
+          if argument[:required]
+            return false if args[name] == nil
+          end
+          valid =  argument.valid_input?(args[name])
         end
-        valid =  argument.valid_input?(args[name])
+      else
+        valid = true
       end
+
       return valid
     end
   end
