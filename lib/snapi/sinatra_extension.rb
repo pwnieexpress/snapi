@@ -37,18 +37,15 @@ module Snapi
       @function   = params.delete("function").to_sym
 
       response_wrapper do
-        unless Snapi.has_capability?(@capability)
-          raise InvalidCapabilityError
-        end
 
-        unless Snapi[@capability].valid_function_call?(@function,params)
+        unless Snapi.supports?(@capability, @function, params)
           raise InvalidFunctionCallError
         end
 
         response = Snapi[@capability].run_function(@function,params)
 
         unless response.class == Hash
-          response = { result: response }
+          response = { raw_result: response }
         end
 
         response

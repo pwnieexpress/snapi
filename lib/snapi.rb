@@ -36,6 +36,15 @@ module Snapi
   def self.has_capability?(capability)
     valid_capabilities.include?(capability)
   end
+
+  def self.supports?(capability,function,params)
+    if Snapi.has_capability?(capability) &&
+       Snapi[capability].valid_function_call?(function, params)
+      true
+    else
+      false
+    end
+  end
 end
 
 # This depends on Snapi module being defined as above
