@@ -50,7 +50,8 @@ module Snapi
     def valid_attributes
       [
         :default_value, :format, :list,
-        :required, :type, :values, :name, :description
+        :required, :type, :values, :name,
+        :description
       ]
     end
 
@@ -79,6 +80,7 @@ module Snapi
     #
     # @param bool, Boolean value
     def list(bool)
+      #TODO work out kinks in list behavior...
       raise InvalidBooleanError unless [true,false].include? bool
       @attributes[:list] = bool
     end
@@ -132,7 +134,6 @@ module Snapi
       when :enum
         raise MissingValuesError unless @attributes[:values]
         raise InvalidValuesError unless @attributes[:values].class == Array
-
         @attributes[:values].include?(input)
       when :string
         format = @attributes[:format] || :anything
@@ -141,7 +142,8 @@ module Snapi
         [Integer, Fixnum].include?(input.class)
       when :timestamp
         # TODO timestamp pending
-        raise PendingBranchError
+        # raise PendingBranchError
+        true
       else
         false
       end

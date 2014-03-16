@@ -47,7 +47,6 @@ module Snapi
         :anything            => [/.*/],
         :bool                => [TRUEFALSE_REGEX],
         :command             => [SIMPLE_COMMAND_REGEX],
-        :cron                => [CRON_REGEX],
         :gsm_adapter         => [ADAPTER_REGEX],
         :hostname            => [HOSTNAME_REGEX],
         :interface           => [INTERFACE_REGEX],
@@ -56,12 +55,9 @@ module Snapi
         :ipv4                => [IP_V4_REGEX],
         :mac                 => [MAC_REGEX],
         :snapi_function_name => [SNAPI_FUNCTION_NAME],
-        :string              => [STRING_REGEX],
         :on_off              => [ON_OFF_REGEX],
         :port                => [PORT_REGEX],
         :uri                 => [URI_REGEX],
-        :username            => [HOSTNAME_REGEX],
-        :password            => [NUM_LETTERS_SP_CHARS]
       }
     end
 
@@ -88,9 +84,6 @@ module Snapi
     # Note base on lib/shells/gsm.rb
     ADAPTER_REGEX = /^(unlocked_gsm|verizon_virgin_mobile|tmobile)$/
     #
-    # Note set in lib/shells/scheduler.rb
-    CRON_REGEX = /^(1_minute|5_minutes|15_minutes|60_minutes)$/
-    #
     # Source:
     SIMPLE_COMMAND_REGEX = /^([a-zA-Z0-9\.\s\-\_\/\\\,\=]+)*$/i
     #
@@ -116,9 +109,6 @@ module Snapi
     #
     # SIMPLE ON / OFF (CHECKBOXES)
     ON_OFF_REGEX = /^(on|off)$/i
-    #
-    # Source:
-    STRING_REGEX = /^([a-zA-Z0-9\.\-\_]+)*$/i
     #
     # TRUE OR FALSE
     TRUEFALSE_REGEX = /^(true|false)$/i

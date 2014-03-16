@@ -1,4 +1,6 @@
 # include all the things!
+require "core_ext/hash"
+
 require "snapi/validator"
 require "snapi/errors"
 require "snapi/argument"
@@ -10,7 +12,11 @@ module Snapi
   @@capabilities = {}
 
   def self.capabilities
-    @@capabilities || {}
+    @@capabilities
+  end
+
+  def self.[](key)
+    @@capabilities[key]
   end
 
   def self.register_capability(klass)
@@ -21,11 +27,26 @@ module Snapi
     @@capabilities.keys
   end
 
-  def self.capability_root
-    "/plugins/?"
+  def self.capability_hash
+    valid_capabilities.each_with_object({}) do |cap,coll|
+      coll[cap] = Snapi[cap].to_hash
+    end
+  end
+
+  def self.has_capability?(capability)
+    valid_capabilities.include?(capability)
+  end
+
+  def self.supports?(capability,function,params)
+    if Snapi.has_capability?(capability) &&
+       Snapi[capability].valid_function_call?(function, params)
+      true
+    else
+      false
+    end
   end
 end
 
 # This depends on Snapi module being defined as above
+require "snapi/sinatra_extension_helper"
 require "snapi/sinatra_extension"
-

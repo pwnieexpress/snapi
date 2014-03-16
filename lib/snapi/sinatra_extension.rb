@@ -3,42 +3,53 @@ require 'sinatra/contrib'
 
 module Snapi
   module SinatraExtension
+
     extend Sinatra::Extension
 
-    get "/?" do
-      capabilities = Snapi.capabilities.dup
-      capabilities.keys.each do |key|
-        capabilities[key] = capabilities[key].to_hash
-      end
-      JSON.generate(capabilities)
+    helpers Snapi::SinatraExtensionHelper
+
+    # Hello darkness, my old friend
+    def self.get_or_post(url,&block)
+      get(url,&block)
+      post(url,&block)
     end
 
-    get "/:capability/?" do
+    get_or_post "/?" do
+      response_wrapper do
+        Snapi.capability_hash
+      end
+    end
+
+    get_or_post "/:capability/?" do
       @capability = params.delete("capability").to_sym
 
-      unless Snapi.valid_capabilities.include?(@capability)
-        raise InvalidCapabilityError
+      response_wrapper do
+        if Snapi.has_capability?(@capability)
+          Snapi[@capability].to_hash
+        else
+          raise InvalidCapabilityError
+        end
       end
-
-      JSON.generate(Snapi.capabilities[@capability].to_hash)
     end
 
-    get "/:capability/:function/?" do
+    get_or_post "/:capability/:function/?" do
       @capability = params.delete("capability").to_sym
       @function   = params.delete("function").to_sym
 
-      unless Snapi.valid_capabilities.include?(@capability)
-        raise InvalidCapabilityError
-      end
+      response_wrapper do
 
-      unless Snapi.capabilities[@capability].valid_function_call?(@function,params)
-        raise InvalidFunctionCallError
-      end
+        unless Snapi.supports?(@capability, @function, params)
+          raise InvalidFunctionCallError
+        end
 
-      # TODO add response_wrapper which ensures that the return data from the
-      # function matches the type declared in the capabilities function defitition
-      response = Snapi.capabilities[@capability].run_function(@function,params)
-      response.class == String ? response : JSON.generate(response)
+        response = Snapi[@capability].run_function(@function,params)
+
+        unless response.class == Hash
+          response = { raw_result: response }
+        end
+
+        response
+      end
     end
   end
 end

@@ -1,3 +1,16 @@
+0.0.7
+-- remove support for Snapi.capability_root
+-- Import deep_merge, and deep_merge! methods for Ruby
+   core Has class
+-- Improve Snapi module API
+-- Improvements to Sinatra Extension
+-- Sinatra Extension helper with repsonse_wrapper method
+-- to_hash method on function now includes and Array of argument
+-- utilize default_value if set for a :string argument
+-- remove useless regexes from validator
+-- Improve spec tests
+-- Improve Documentation in README.md
+
 0.0.6
 -- fix bug around @@capabilities overide in Sinatra Extension
 0.0.5

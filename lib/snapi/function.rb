@@ -45,9 +45,9 @@ module Snapi
     #
     # @returns Hash representation of Function
     def to_hash
-      args_hash =  {}
-      arguments.each { |k,v| args_hash[k] = v.attributes } if arguments
-      { return_type: return_type }.merge args_hash
+      args =  []
+      arguments.each { |k,v| args <<  {name: k }.merge(v.attributes) } if arguments
+      { return_type: return_type, arguments: args }
     end
 
     # This method accepts a hash (as from a web request) which it
@@ -61,12 +61,23 @@ module Snapi
     # @returns Boolean
     def valid_args?(args={})
       valid = false
-      arguments.each do |name, argument|
-        if argument[:required]
-          return false if args[name] == nil
+
+      if arguments
+        arguments.each do |name, argument|
+          if argument[:required]
+            return false if args[name] == nil
+          end
+
+          if argument[:default_value] && !args[name]
+            args[name] = argument[:default_value]
+          end
+
+          valid = argument.valid_input?(args[name])
         end
-        valid =  argument.valid_input?(args[name])
+      else
+        valid = true
       end
+
       return valid
     end
   end
