@@ -102,7 +102,7 @@ module Snapi
     #
     # @param type, Symbol indicating type
     def type(type)
-      valid_types = [:boolean, :enum, :string, :number, :timestamp]
+      valid_types = [:boolean, :enum, :json, :string, :number, :timestamp]
       raise InvalidTypeError unless valid_types.include?(type)
       @attributes[:type] = type
     end
