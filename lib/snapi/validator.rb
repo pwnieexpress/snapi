@@ -15,7 +15,7 @@ module Snapi
       raise InvalidFormatError unless valid_regex_format?(key)
 
       boolarray = validation_regex[key].map do |regxp|
-        (regxp =~ string) == 0 ? true : false
+        (string =~ regxp) == 0 ? true : false
       end
 
       return true if boolarray.include?(true)
