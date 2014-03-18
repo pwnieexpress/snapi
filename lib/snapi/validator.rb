@@ -123,10 +123,10 @@ module Snapi
     URI_REGEX = /https?:\/\/[\S]+/
   end
 
-  # Provide an object with a match method that mirrors Regexp.match.
-  # The existing matching code relies on the fact that Regexp.match will return
-  # the index for which the string matches the regex.  We return 0 if the JSON
-  # is valid for compatibility with existing code.
+  # Provide an object to validate JSON with a =~ method that mirrors Regexp.=~.
+  # The existing validation code relies on the fact that Regexp.=~ will return
+  # the index for which the string matches the regex. We return 0 if the JSON
+  # is parsable, since the JSON string will always start at index 0.
   class JsonValidator
     def self.=~(obj)
       begin
