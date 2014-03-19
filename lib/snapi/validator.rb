@@ -1,3 +1,4 @@
+require 'json'
 module Snapi
 
   # Helpful module to check strings against named Regexp patterns which
@@ -53,6 +54,7 @@ module Snapi
         :ip                  => [IP_V4_REGEX, IP_V6_REGEX],
         :ipv6                => [IP_V6_REGEX],
         :ipv4                => [IP_V4_REGEX],
+        :json                => [JsonValidator],
         :mac                 => [MAC_REGEX],
         :snapi_function_name => [SNAPI_FUNCTION_NAME],
         :on_off              => [ON_OFF_REGEX],
@@ -119,5 +121,20 @@ module Snapi
     NUM_LETTERS_SP_CHARS = /^[\w\[\]\!\@\#\$\%\^\&\*\(\)\{\}\:\;\<\>\+\-]*$/i
     #
     URI_REGEX = /https?:\/\/[\S]+/
+  end
+
+  # Provide an object to validate JSON with a =~ method that mirrors Regexp.=~.
+  # The existing validation code relies on the fact that Regexp.=~ will return
+  # the index for which the string matches the regex. We return 0 if the JSON
+  # is parsable, since the JSON string will always start at index 0.
+  class JsonValidator
+    def self.=~(obj)
+      begin
+        JSON.parse(obj)
+        0 
+      rescue
+        nil
+      end
+    end
   end
 end

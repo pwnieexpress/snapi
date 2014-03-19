@@ -30,4 +30,10 @@ describe "Snapi::Validator" do
     Snapi::Validator.valid_input?( :ip, "192.168.10.256" ).should == false
     Snapi::Validator.valid_input?( :ip, "Jake the Dog"   ).should == false
   end
+  it "validates well-formed json" do
+    Snapi::Validator.valid_input?( :json, "{}" ).should == true
+    Snapi::Validator.valid_input?( :json, "{'}" ).should == false
+    Snapi::Validator.valid_input?( :json, "{\"asdf\": 3}" ).should == true
+    Snapi::Validator.valid_input?( :json, "{asdf: 3" ).should == false
+  end
 end
