@@ -19,10 +19,15 @@ describe "Snapi::Validator" do
   end
 
   it "offers an array of regular expressions in exchange for a format type" do
-    test_format = Snapi::Validator.format_types.shuffle.first
-    v_reg = Snapi::Validator.validation_regex[test_format]
-    v_reg.class.should == Array
-    v_reg.first.class.should == Regexp
+    ip_reg = Snapi::Validator.validation_regex[:ip]
+    ip_reg.class.should                  == Array
+    ip_reg.first.class.should            == Regexp
+    ip_reg.first.respond_to?(:=~).should == true
+
+    json_reg = Snapi::Validator.validation_regex[:json]
+    json_reg.class.should                  == Array
+    json_reg.first.class.should            == Class
+    json_reg.first.respond_to?(:=~).should == true
   end
 
   it "will attempt to confirm if a string matches the specified regex" do
@@ -30,10 +35,12 @@ describe "Snapi::Validator" do
     Snapi::Validator.valid_input?( :ip, "192.168.10.256" ).should == false
     Snapi::Validator.valid_input?( :ip, "Jake the Dog"   ).should == false
   end
+
   it "validates well-formed json" do
-    Snapi::Validator.valid_input?( :json, "{}" ).should == true
-    Snapi::Validator.valid_input?( :json, "{'}" ).should == false
+    Snapi::Validator.valid_input?( :json, "{}" ).should            == true
+    Snapi::Validator.valid_input?( :json, "{'}" ).should           == false
     Snapi::Validator.valid_input?( :json, "{\"asdf\": 3}" ).should == true
-    Snapi::Validator.valid_input?( :json, "{asdf: 3" ).should == false
+    Snapi::Validator.valid_input?( :json, "{asdf: 3" ).should      == false
+    Snapi::Validator.valid_input?( :json, "[{},{}]" ).should       == true
   end
 end

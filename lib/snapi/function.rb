@@ -60,25 +60,19 @@ module Snapi
     # @params args Hash
     # @returns Boolean
     def valid_args?(args={})
-      valid = false
-
       if arguments
         arguments.each do |name, argument|
-          if argument[:required]
-            return false if args[name] == nil
+
+          if argument[:default_value]
+            args[name] = args[name] || argument[:default_value]
           end
 
-          if argument[:default_value] && !args[name]
-            args[name] = argument[:default_value]
-          end
-
-          valid = argument.valid_input?(args[name])
+          return false if (argument[:required] && (args[name] == nil))
+          return false if (argument[:required] && !(argument.valid_input? args[name]))
         end
-      else
-        valid = true
       end
 
-      return valid
+      return true
     end
   end
 end
