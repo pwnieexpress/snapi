@@ -29,20 +29,39 @@ describe Snapi::Function do
       arg.type  :string
     end
 
-    blank = {}
-    wrong1 = {:not_argument => "test value"}
-    wrong2 = {:optional_argument => "test value"}
+    blank  = {}
 
-    valid1 = {:argument => "test value"} # just required, missing non-required
-    valid2 = {:argument => "test value", :optional_argument => "test value"} # required + optional
-    valid3 = {:argument => "test value", :not => :relevant} # ignores unexected key / values
+    # no relevant args
+    wrong1 = {
+      :not_argument => "test value"
+    }
+
+    # just the optional arg
+    wrong2 = {
+      :optional_argument => "test value"
+    }
+
+    # just required, missing non-required
+    valid1 = {
+      :argument => "test value"
+    }
+
+    # required + optional
+    valid2 = {
+      :argument          => "test value",
+      :optional_argument => "test value"
+    }
+
+    # ignores unexected key / values
+    valid3 = {
+      :argument => "test value",
+      :not      => :relevant
+    }
 
 
-    subject.valid_args?(blank).should == false
-
+    subject.valid_args?(blank).should  == false
     subject.valid_args?(wrong1).should == false
     subject.valid_args?(wrong2).should == false
-
     subject.valid_args?(valid1).should == true
     subject.valid_args?(valid2).should == true
     subject.valid_args?(valid3).should == true
