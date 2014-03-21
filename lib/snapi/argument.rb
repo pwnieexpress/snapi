@@ -98,8 +98,7 @@ module Snapi
     # Description of the argument
     #
     # @param desc, String
-    def list(desc)
-      #TODO work out kinks in list behavior...
+    def description(desc)
       raise InvalidDescriptionError unless desc.class == String
       @attributes[:description] = desc
     end
