@@ -103,7 +103,7 @@ module Snapi
       @attributes[:description] = desc
     end
 
-    # DSL Sette
+    # DSL Setter
     # What type of value is this argument. This will impact the way in which
     # this argument value gets validated later on
     #
