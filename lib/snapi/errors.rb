@@ -14,6 +14,7 @@ module Snapi
   InvalidArgumentAttributeError    = Class.new(StandardError)
   InvalidBooleanError              = Class.new(StandardError)
   InvalidCapabilityError           = Class.new(StandardError)
+  InvalidDescriptionError          = Class.new(StandardError)
   InvalidFormatError               = Class.new(StandardError)
   InvalidFunctionCallError         = Class.new(StandardError)
   InvalidFunctionNameError         = Class.new(StandardError)

@@ -95,6 +95,16 @@ module Snapi
     end
 
     # DSL Setter
+    # Description of the argument
+    #
+    # @param desc, String
+    def list(desc)
+      #TODO work out kinks in list behavior...
+      raise InvalidDescriptionError unless desc.class == String
+      @attributes[:description] = desc
+    end
+
+    # DSL Sette
     # What type of value is this argument. This will impact the way in which
     # this argument value gets validated later on
     #
