@@ -42,9 +42,14 @@ describe Snapi::Argument do
     subject.type(:string).should == :string
   end
 
+  it "can have a description set" do
+    subject.description("describe the argument").should == "describe the argument"
+  end
+
   it "can return a hash of its own options" do
     subject.attributes.keys.sort.should == []
   end
+
 
   describe "can validate types such as" do
     it ":boolean" do
