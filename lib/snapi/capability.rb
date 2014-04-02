@@ -72,9 +72,10 @@ module Snapi
       def namespace
         self.name
         .split('::').last
-        .scan(/([A-Z]+[a-z0-9]+)/)
-        .flatten.map(&:downcase)
-        .join("_")
+        .gsub(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
+        .gsub(/([a-z\d])([A-Z])/,'\1_\2')
+        .tr("-", "_")
+        .downcase
         .to_sym
       end
 

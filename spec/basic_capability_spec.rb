@@ -21,6 +21,13 @@ describe Snapi::BasicCapability do
 
       PrinceLemonGrab.to_hash.should == lemon_grab
     end
+
+    it "correctly converts class name to snaked-cased symbol" do
+      class ClassA < Snapi::BasicCapability
+      end
+
+      ClassA.namespace.should == :class_a
+    end
   end
 
   describe "DSL" do
