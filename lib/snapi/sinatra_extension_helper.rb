@@ -21,7 +21,7 @@ module Snapi
           data = data.deep_merge(yield)
         rescue Exception => e
           response_code = 500
-          errors << "#{e.class.name}: #{e.backtrace}"
+          errors << "#{e.class.name}: #{e.backtrace.first}"
         end
 
         time_end = Time.now
