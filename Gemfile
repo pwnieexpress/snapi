@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://gemrepo.pxinfra.net/rubygems'
 
 gem 'sinatra'
 gem 'sinatra-contrib'

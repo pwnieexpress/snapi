@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: https://gemrepo.pxinfra.net/rubygems/
   specs:
     backports (3.3.5)
     coderay (1.1.0)
